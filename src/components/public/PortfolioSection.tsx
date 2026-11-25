@@ -5,6 +5,9 @@ import { Modal } from '../ui/Modal';
 
 interface PortfolioSectionProps {
   items: PortfolioItem[];
+  eyebrow: string;
+  title: string;
+  description: string;
 }
 
 const KIND_LABELS: Record<PortfolioItemKind, string> = {
@@ -19,7 +22,12 @@ const KIND_ICONS: Record<PortfolioItemKind, React.ReactNode> = {
   experiencia: <Briefcase className="h-3.5 w-3.5" />,
 };
 
-export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ items }) => {
+export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
+  items,
+  eyebrow,
+  title,
+  description,
+}) => {
   const [filter, setFilter] = useState<'todos' | PortfolioItemKind>('todos');
   const [selected, setSelected] = useState<PortfolioItem | null>(null);
 
@@ -34,16 +42,17 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ items }) => 
     <section id="projetos" className="scroll-mt-20 space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-[#ef5350]">
-            Portfólio Selecionado
-          </span>
+          {eyebrow && (
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#ef5350]">
+              {eyebrow}
+            </span>
+          )}
           <h2 className="mt-1 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Projetos, Serviços & Experiências
+            {title}
           </h2>
-          <p className="mt-1.5 max-w-2xl text-sm text-[#8b96a6]">
-            Trabalhos recentes, especialidades sob demanda e trajetória profissional atualizados em
-            tempo real pelo painel administrativo.
-          </p>
+          {description && (
+            <p className="mt-1.5 max-w-2xl text-sm text-[#8b96a6]">{description}</p>
+          )}
         </div>
 
         {/* Kind Filter */}

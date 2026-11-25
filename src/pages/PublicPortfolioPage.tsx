@@ -64,23 +64,34 @@ export const PublicPortfolioPage: React.FC = () => {
 
   const renderSection = (key: PublicSectionKey) => {
     if (key === 'projects') {
-      return <PortfolioSection key="projects" items={portfolioItems} />;
+      return (
+        <PortfolioSection
+          key="projects"
+          items={portfolioItems}
+          eyebrow={profile.portfolioSectionEyebrow}
+          title={profile.portfolioSectionTitle}
+          description={profile.portfolioSectionDescription}
+        />
+      );
     }
     if (key === 'calendar' && profile.showCalendarSection) {
       return (
         <section key="calendar" id="agenda" className="scroll-mt-20 space-y-5">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#ef5350]">
-                Agenda Interativa
-              </span>
+              {profile.calendarSectionEyebrow && (
+                <span className="text-xs font-semibold uppercase tracking-widest text-[#ef5350]">
+                  {profile.calendarSectionEyebrow}
+                </span>
+              )}
               <h2 className="mt-1 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                Calendário de Agendamentos
+                {profile.calendarSectionTitle}
               </h2>
-              <p className="mt-1.5 max-w-2xl text-sm text-[#8b96a6]">
-                Clique em qualquer dia para consultar compromissos, reservar um horário disponível
-                ou enviar uma solicitação de agendamento.
-              </p>
+              {profile.calendarSectionDescription && (
+                <p className="mt-1.5 max-w-2xl text-sm text-[#8b96a6]">
+                  {profile.calendarSectionDescription}
+                </p>
+              )}
             </div>
             <div className="inline-flex items-center gap-2 self-start rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300 sm:self-auto">
               <CheckCircle2 className="h-3.5 w-3.5" />
@@ -98,7 +109,15 @@ export const PublicPortfolioPage: React.FC = () => {
       );
     }
     if (key === 'inventory' && profile.showInventorySection) {
-      return <InventorySection key="inventory" products={products} />;
+      return (
+        <InventorySection
+          key="inventory"
+          products={products}
+          eyebrow={profile.inventorySectionEyebrow}
+          title={profile.inventorySectionTitle}
+          description={profile.inventorySectionDescription}
+        />
+      );
     }
     return null;
   };
@@ -251,14 +270,17 @@ export const PublicPortfolioPage: React.FC = () => {
         >
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-2">
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#ef5350]">
-                Contato Direto
-              </span>
-              <h2 className="text-2xl font-bold text-white">Vamos conversar sobre seu projeto?</h2>
-              <p className="max-w-xl text-sm text-[#8b96a6]">
-                Entre em contato pelos canais abaixo ou selecione um horário disponível diretamente
-                no calendário acima.
-              </p>
+              {profile.contactSectionEyebrow && (
+                <span className="text-xs font-semibold uppercase tracking-widest text-[#ef5350]">
+                  {profile.contactSectionEyebrow}
+                </span>
+              )}
+              <h2 className="text-2xl font-bold text-white">{profile.contactSectionTitle}</h2>
+              {profile.contactSectionDescription && (
+                <p className="max-w-xl text-sm text-[#8b96a6]">
+                  {profile.contactSectionDescription}
+                </p>
+              )}
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3 lg:flex lg:flex-wrap">

@@ -180,6 +180,22 @@ export function createSeedData(): AppData {
       whatsapp: '+55 11 98765-4321',
       primaryCtaLabel: 'Agendar Horário',
       secondaryCtaLabel: 'Ver Produtos',
+      portfolioSectionEyebrow: 'Portfólio Selecionado',
+      portfolioSectionTitle: 'Projetos, Serviços & Experiências',
+      portfolioSectionDescription:
+        'Trabalhos recentes, especialidades sob demanda e trajetória profissional.',
+      calendarSectionEyebrow: 'Agenda Interativa',
+      calendarSectionTitle: 'Calendário de Agendamentos',
+      calendarSectionDescription:
+        'Clique em qualquer dia para consultar compromissos, reservar um horário disponível ou enviar uma solicitação de agendamento.',
+      inventorySectionEyebrow: 'Inventário & Vitrine',
+      inventorySectionTitle: 'Produtos & Equipamentos Disponíveis',
+      inventorySectionDescription:
+        'Consulte disponibilidade em tempo real, filtre por categoria e clique em um item para ver detalhes, reservar ou demonstrar interesse.',
+      contactSectionEyebrow: 'Contato Direto',
+      contactSectionTitle: 'Vamos conversar sobre seu projeto?',
+      contactSectionDescription:
+        'Entre em contato pelos canais abaixo ou selecione um horário disponível diretamente no calendário acima.',
       showCalendarSection: true,
       showInventorySection: true,
       allowPublicCustomBooking: true,

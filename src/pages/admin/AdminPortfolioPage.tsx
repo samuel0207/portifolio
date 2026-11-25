@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Save,
   Plus,
@@ -12,6 +12,7 @@ import {
   Link as LinkIcon,
   User,
   Layers,
+  Type,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { ImageInput } from '../../components/ui/ImageInput';
@@ -44,8 +45,26 @@ export const AdminPortfolioPage: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<'profile' | 'items'>('profile');
 
-  // Local profile form state
+  // Local profile form state (kept in sync with remote Supabase updates)
   const [profileForm, setProfileForm] = useState(data.profile);
+
+  useEffect(() => {
+    setProfileForm(data.profile);
+  }, [data.profile]);
+
+  const handleSavePortfolioSectionHeader = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateProfile({
+      portfolioSectionEyebrow: profileForm.portfolioSectionEyebrow,
+      portfolioSectionTitle: profileForm.portfolioSectionTitle,
+      portfolioSectionDescription: profileForm.portfolioSectionDescription,
+    });
+    notify({
+      type: 'success',
+      title: 'Cabeçalho da seção atualizado!',
+      message: 'Os novos textos já aparecem no portfólio público.',
+    });
+  };
 
   // Portfolio item modal state
   const [itemModalOpen, setItemModalOpen] = useState(false);
@@ -523,6 +542,222 @@ export const AdminPortfolioPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Section Headers & Texts Editor */}
+          <div className="space-y-4 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
+            <div className="flex items-center gap-2">
+              <Type className="h-4 w-4 text-[#ef5350]" />
+              <div>
+                <h2 className="text-sm font-semibold text-white">
+                  Títulos e Descrições das Seções Públicas
+                </h2>
+                <p className="text-xs text-[#8b96a6]">
+                  Personalize os selos, títulos e textos introdutórios exibidos em cada bloco do
+                  portfólio.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-2">
+              {/* Portfólio */}
+              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
+                <p className="text-xs font-semibold text-white">Seção de Portfólio</p>
+                <div className="grid gap-2.5 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">
+                      Selo superior (ex: PORTFÓLIO SELECIONADO)
+                    </label>
+                    <input
+                      type="text"
+                      value={profileForm.portfolioSectionEyebrow}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          portfolioSectionEyebrow: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <input
+                      type="text"
+                      value={profileForm.portfolioSectionTitle}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          portfolioSectionTitle: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <textarea
+                    rows={2}
+                    value={profileForm.portfolioSectionDescription}
+                    onChange={(e) =>
+                      setProfileForm({
+                        ...profileForm,
+                        portfolioSectionDescription: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                  />
+                </div>
+              </div>
+
+              {/* Agenda */}
+              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
+                <p className="text-xs font-semibold text-white">Seção de Agenda</p>
+                <div className="grid gap-2.5 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Selo superior</label>
+                    <input
+                      type="text"
+                      value={profileForm.calendarSectionEyebrow}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          calendarSectionEyebrow: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <input
+                      type="text"
+                      value={profileForm.calendarSectionTitle}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          calendarSectionTitle: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <textarea
+                    rows={2}
+                    value={profileForm.calendarSectionDescription}
+                    onChange={(e) =>
+                      setProfileForm({
+                        ...profileForm,
+                        calendarSectionDescription: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                  />
+                </div>
+              </div>
+
+              {/* Inventário */}
+              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
+                <p className="text-xs font-semibold text-white">Seção de Produtos / Inventário</p>
+                <div className="grid gap-2.5 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Selo superior</label>
+                    <input
+                      type="text"
+                      value={profileForm.inventorySectionEyebrow}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          inventorySectionEyebrow: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <input
+                      type="text"
+                      value={profileForm.inventorySectionTitle}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          inventorySectionTitle: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <textarea
+                    rows={2}
+                    value={profileForm.inventorySectionDescription}
+                    onChange={(e) =>
+                      setProfileForm({
+                        ...profileForm,
+                        inventorySectionDescription: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                  />
+                </div>
+              </div>
+
+              {/* Contato */}
+              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
+                <p className="text-xs font-semibold text-white">Seção de Contato</p>
+                <div className="grid gap-2.5 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Selo superior</label>
+                    <input
+                      type="text"
+                      value={profileForm.contactSectionEyebrow}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          contactSectionEyebrow: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <input
+                      type="text"
+                      value={profileForm.contactSectionTitle}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          contactSectionTitle: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <textarea
+                    rows={2}
+                    value={profileForm.contactSectionDescription}
+                    onChange={(e) =>
+                      setProfileForm({
+                        ...profileForm,
+                        contactSectionDescription: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="flex justify-end">
             <button
               type="submit"
@@ -537,7 +772,83 @@ export const AdminPortfolioPage: React.FC = () => {
 
       {/* TAB 2: PORTFOLIO ITEMS CRUD */}
       {activeTab === 'items' && (
-        <div className="space-y-4">
+        <div className="space-y-5">
+          {/* Quick Editor for the Portfolio Section Heading */}
+          <form
+            onSubmit={handleSavePortfolioSectionHeader}
+            className="space-y-3 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Type className="h-4 w-4 text-[#ef5350]" />
+                <div>
+                  <h2 className="text-sm font-semibold text-white">
+                    Cabeçalho da Seção no Portfólio Público
+                  </h2>
+                  <p className="text-xs text-[#8b96a6]">
+                    Edite o selo superior, título e descrição exibidos acima dos seus cards.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[#2d3646] bg-[#161b22] px-3 py-1.5 text-xs font-semibold text-white transition hover:border-[#ef5350]/60 hover:bg-[#1c222d]"
+              >
+                <Save className="h-3.5 w-3.5 text-[#ef5350]" />
+                Salvar Cabeçalho
+              </button>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-xs text-[#9aa5b4]">Selo Superior</label>
+                <input
+                  type="text"
+                  value={profileForm.portfolioSectionEyebrow}
+                  onChange={(e) =>
+                    setProfileForm({
+                      ...profileForm,
+                      portfolioSectionEyebrow: e.target.value,
+                    })
+                  }
+                  placeholder="Ex: PORTFÓLIO SELECIONADO"
+                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-[#9aa5b4]">Título Principal</label>
+                <input
+                  type="text"
+                  value={profileForm.portfolioSectionTitle}
+                  onChange={(e) =>
+                    setProfileForm({
+                      ...profileForm,
+                      portfolioSectionTitle: e.target.value,
+                    })
+                  }
+                  placeholder="Ex: Projetos, Serviços & Experiências"
+                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="mb-1 block text-xs text-[#9aa5b4]">Subtítulo / Descrição</label>
+              <textarea
+                rows={2}
+                value={profileForm.portfolioSectionDescription}
+                onChange={(e) =>
+                  setProfileForm({
+                    ...profileForm,
+                    portfolioSectionDescription: e.target.value,
+                  })
+                }
+                placeholder="Breve descrição exibida abaixo do título da seção..."
+                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+              />
+            </div>
+          </form>
+
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-[#8b96a6]">
               Crie, edite, reordene, oculte ou exclua projetos, serviços e experiências exibidos no

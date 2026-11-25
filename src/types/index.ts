@@ -29,6 +29,18 @@ export interface PortfolioProfile {
   whatsapp: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
+  portfolioSectionEyebrow: string;
+  portfolioSectionTitle: string;
+  portfolioSectionDescription: string;
+  calendarSectionEyebrow: string;
+  calendarSectionTitle: string;
+  calendarSectionDescription: string;
+  inventorySectionEyebrow: string;
+  inventorySectionTitle: string;
+  inventorySectionDescription: string;
+  contactSectionEyebrow: string;
+  contactSectionTitle: string;
+  contactSectionDescription: string;
   showCalendarSection: boolean;
   showInventorySection: boolean;
   allowPublicCustomBooking: boolean;

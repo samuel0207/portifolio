@@ -1,6 +1,11 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { ADMIN_AUTH_CONFIG } from '../config/auth';
-import { localStorageRepository, STORAGE_KEY, SUPABASE_CONFIG } from '../services/storage';
+import {
+  localStorageRepository,
+  normalizeAppData,
+  STORAGE_KEY,
+  SUPABASE_CONFIG,
+} from '../services/storage';
 import {
   loadRemoteState,
   saveRemoteState,
@@ -153,10 +158,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       .then((remote) => {
         if (!active) return;
         if (remote) {
-          lastRemoteTimestampRef.current = remote.updatedAt;
-          setData(remote);
+          const normalized = normalizeAppData(remote);
+          lastRemoteTimestampRef.current = normalized.updatedAt;
+          setData(normalized);
           try {
-            localStorageRepository.save(remote);
+            localStorageRepository.save(normalized);
           } catch {
             // Ignore local cache quota issues
           }
@@ -183,10 +189,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const unsubscribe = subscribeRemoteState((remotePayload) => {
       if (!active) return;
       if (remotePayload.updatedAt === lastRemoteTimestampRef.current) return;
-      lastRemoteTimestampRef.current = remotePayload.updatedAt;
-      setData(remotePayload);
+      const normalized = normalizeAppData(remotePayload);
+      lastRemoteTimestampRef.current = normalized.updatedAt;
+      setData(normalized);
       try {
-        localStorageRepository.save(remotePayload);
+        localStorageRepository.save(normalized);
       } catch {
         // Ignore
       }

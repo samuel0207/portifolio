@@ -15,6 +15,26 @@ export interface PersistenceRepository {
   importJSON(raw: string): AppData;
 }
 
+export function normalizeAppData(parsed: Partial<AppData> | null | undefined): AppData {
+  const fallback = createSeedData();
+  if (!parsed || typeof parsed !== 'object') {
+    return fallback;
+  }
+  return {
+    version: parsed.version ?? fallback.version,
+    profile: { ...fallback.profile, ...(parsed.profile ?? {}) },
+    portfolioItems: Array.isArray(parsed.portfolioItems)
+      ? parsed.portfolioItems
+      : fallback.portfolioItems,
+    events: Array.isArray(parsed.events) ? parsed.events : fallback.events,
+    products: Array.isArray(parsed.products) ? parsed.products : fallback.products,
+    productInterests: Array.isArray(parsed.productInterests)
+      ? parsed.productInterests
+      : fallback.productInterests,
+    updatedAt: parsed.updatedAt ?? new Date().toISOString(),
+  };
+}
+
 export const localStorageRepository: PersistenceRepository = {
   load(): AppData {
     try {
@@ -25,20 +45,7 @@ export const localStorageRepository: PersistenceRepository = {
         return seed;
       }
       const parsed = JSON.parse(raw) as Partial<AppData>;
-      const fallback = createSeedData();
-      return {
-        version: parsed.version ?? fallback.version,
-        profile: { ...fallback.profile, ...(parsed.profile ?? {}) },
-        portfolioItems: Array.isArray(parsed.portfolioItems)
-          ? parsed.portfolioItems
-          : fallback.portfolioItems,
-        events: Array.isArray(parsed.events) ? parsed.events : fallback.events,
-        products: Array.isArray(parsed.products) ? parsed.products : fallback.products,
-        productInterests: Array.isArray(parsed.productInterests)
-          ? parsed.productInterests
-          : fallback.productInterests,
-        updatedAt: parsed.updatedAt ?? new Date().toISOString(),
-      };
+      return normalizeAppData(parsed);
     } catch {
       const seed = createSeedData();
       try {
