@@ -22,7 +22,14 @@ export function normalizeAppData(parsed: Partial<AppData> | null | undefined): A
   }
   return {
     version: parsed.version ?? fallback.version,
-    profile: { ...fallback.profile, ...(parsed.profile ?? {}) },
+    profile: {
+      ...fallback.profile,
+      ...(parsed.profile ?? {}),
+      pillars:
+        Array.isArray(parsed.profile?.pillars) && parsed.profile.pillars.length > 0
+          ? parsed.profile.pillars
+          : fallback.profile.pillars,
+    },
     portfolioItems: Array.isArray(parsed.portfolioItems)
       ? parsed.portfolioItems
       : fallback.portfolioItems,

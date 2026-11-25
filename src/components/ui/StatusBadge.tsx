@@ -43,30 +43,37 @@ export const EventStatusBadge: React.FC<{ status: EventStatus; surface?: 'dark' 
 
 export const ProductStatusBadge: React.FC<{
   status: ProductStatus;
-  surface?: 'dark' | 'studio';
+  surface?: 'dark' | 'studio' | 'editorial';
 }> = ({ status, surface = 'dark' }) => {
   const styles: Record<ProductStatus, string> =
-    surface === 'studio'
+    surface === 'editorial'
       ? {
-          Disponível: 'border-emerald-700/20 bg-emerald-600/12 text-emerald-800',
-          'Baixo estoque': 'border-amber-700/20 bg-amber-600/12 text-amber-900',
-          Esgotado: 'border-rose-700/20 bg-rose-600/12 text-rose-800',
-          Oculto: 'border-black/15 bg-black/8 text-[#4b4f57]',
+          Disponível: 'border-emerald-800/20 bg-[#f6f1eb]/95 text-emerald-900',
+          'Baixo estoque': 'border-amber-800/25 bg-[#f6f1eb]/95 text-amber-900',
+          Esgotado: 'border-[#b96b4d]/35 bg-[#f6f1eb]/95 text-[#9f573b]',
+          Oculto: 'border-[#d8c8b8] bg-[#f6f1eb]/95 text-[#6f6259]',
         }
-      : {
-          Disponível: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
-          'Baixo estoque': 'border-amber-500/30 bg-amber-500/10 text-amber-300',
-          Esgotado: 'border-[#ef5350]/35 bg-[#ef5350]/12 text-[#ff8a88]',
-          Oculto: 'border-slate-500/30 bg-slate-500/10 text-slate-300',
-        };
+      : surface === 'studio'
+        ? {
+            Disponível: 'border-emerald-700/20 bg-emerald-600/12 text-emerald-800',
+            'Baixo estoque': 'border-amber-700/20 bg-amber-600/12 text-amber-900',
+            Esgotado: 'border-rose-700/20 bg-rose-600/12 text-rose-800',
+            Oculto: 'border-black/15 bg-black/8 text-[#4b4f57]',
+          }
+        : {
+            Disponível: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
+            'Baixo estoque': 'border-amber-500/30 bg-amber-500/10 text-amber-300',
+            Esgotado: 'border-[#ef5350]/35 bg-[#ef5350]/12 text-[#ff8a88]',
+            Oculto: 'border-slate-500/30 bg-slate-500/10 text-slate-300',
+          };
 
   const dot: Record<ProductStatus, string> =
-    surface === 'studio'
+    surface === 'editorial' || surface === 'studio'
       ? {
           Disponível: 'bg-emerald-600',
           'Baixo estoque': 'bg-amber-600',
-          Esgotado: 'bg-rose-600',
-          Oculto: 'bg-[#6b7079]',
+          Esgotado: 'bg-[#b96b4d]',
+          Oculto: 'bg-[#8a7c72]',
         }
       : {
           Disponível: 'bg-emerald-400',

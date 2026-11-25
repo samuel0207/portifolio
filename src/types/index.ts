@@ -16,9 +16,19 @@ export interface SocialLink {
 
 export type PublicSectionKey = 'projects' | 'calendar' | 'inventory';
 
+export type PillarIconKey = 'sparkles' | 'award' | 'heart' | 'calendar' | 'shield' | 'star';
+
+export interface EditorialPillar {
+  id: string;
+  icon: PillarIconKey;
+  title: string;
+  description: string;
+}
+
 export interface PortfolioProfile {
   slug: string;
   name: string;
+  brandTagline: string;
   title: string;
   bio: string;
   location: string;
@@ -29,6 +39,30 @@ export interface PortfolioProfile {
   whatsapp: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
+  // Editorial Hero customization
+  heroEyebrow: string;
+  heroHeadlineLine1: string;
+  heroHeadlineLine2: string;
+  heroHeadlineAccent: string;
+  heroBadgeText: string;
+  showSocialProof: boolean;
+  socialProofTitle: string;
+  socialProofSubtitle: string;
+  // 4-Column Differentials / Pillars strip
+  showPillarsSection: boolean;
+  pillars: EditorialPillar[];
+  // Terracotta Editorial Story Banner
+  showStoryBanner: boolean;
+  storyEyebrow: string;
+  storyTitle: string;
+  storyDescription: string;
+  storyCtaLabel: string;
+  storyCtaHref: string;
+  storyImageUrl: string;
+  // Bottom Oval CTA Banner
+  ctaImageUrl: string;
+  ctaButtonLabel: string;
+  // Section Headings
   portfolioSectionEyebrow: string;
   portfolioSectionTitle: string;
   portfolioSectionDescription: string;

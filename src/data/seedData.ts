@@ -167,40 +167,92 @@ export function createSeedData(): AppData {
     updatedAt: nowIso,
     profile: {
       slug: 'estudio-atlas',
-      name: 'Rafael Mendes',
-      title: 'Diretor de Design, Produto Digital & Produção Criativa',
-      bio: 'Ajudo marcas, estúdios e criadores a transformar ideias complexas em produtos digitais memoráveis, identidades visuais consistentes e experiências sob medida. Consulte minha agenda em tempo real ou explore os equipamentos e kits disponíveis no inventário.',
-      location: 'São Paulo, SP • Atendimento Presencial e Remoto',
+      name: 'Lumière',
+      brandTagline: 'ATELIÊ & ESTÚDIO',
+      title: 'Cuidado Especializado, Experiências Sob Medida & Curadoria Exclusiva',
+      bio: 'Cuidado especializado e atendimento personalizado para realçar a sua melhor versão todos os dias. Agende seu horário online em poucos cliques ou conheça nossa curadoria de produtos.',
+      location: 'São Paulo, SP • Atendimento Presencial e Online',
       avatarUrl:
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+        'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=400&q=80',
       bannerUrl:
-        'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80',
-      email: 'contato@estudioatlas.com.br',
+        'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80',
+      email: 'contato@lumiereestudio.com.br',
       phone: '(11) 3042-8890',
       whatsapp: '+55 11 98765-4321',
-      primaryCtaLabel: 'Agendar Horário',
+      primaryCtaLabel: 'Agendar Experiência',
       secondaryCtaLabel: 'Ver Produtos',
-      portfolioSectionEyebrow: 'Portfólio Selecionado',
-      portfolioSectionTitle: 'Projetos, Serviços & Experiências',
+      heroEyebrow: 'Onde a Confiança Floresce',
+      heroHeadlineLine1: 'Cuidado Real.',
+      heroHeadlineLine2: 'Sua Melhor Versão.',
+      heroHeadlineAccent: 'Todos os Dias.',
+      heroBadgeText: 'ATENDIMENTO PREMIUM',
+      showSocialProof: true,
+      socialProofTitle: 'Amado por 500+ clientes',
+      socialProofSubtitle: '4,9/5 (120 avaliações)',
+      showPillarsSection: true,
+      pillars: [
+        {
+          id: 'pil_1',
+          icon: 'sparkles',
+          title: 'Produtos Selecionados',
+          description:
+            'Utilizamos materiais e fórmulas de alta performance para resultados duradouros.',
+        },
+        {
+          id: 'pil_2',
+          icon: 'award',
+          title: 'Especialistas Dedicados',
+          description:
+            'Profissionais apaixonados por cada detalhe, técnica e acabamento impecável.',
+        },
+        {
+          id: 'pil_3',
+          icon: 'heart',
+          title: 'Atendimento Sob Medida',
+          description:
+            'Cada sessão é desenhada conforme seu estilo, objetivos e rotina.',
+        },
+        {
+          id: 'pil_4',
+          icon: 'calendar',
+          title: 'Agendamento Fácil',
+          description:
+            'Consulte a agenda em tempo real e reserve seu horário online em segundos.',
+        },
+      ],
+      showStoryBanner: true,
+      storyEyebrow: 'Mais que um Estúdio',
+      storyTitle: 'É o Seu Tempo.\nÉ o Seu Brilho.',
+      storyDescription:
+        'Criamos muito mais do que entregas técnicas — proporcionamos momentos de autocuidado, acolhimento e confiança que acompanham você no dia a dia.',
+      storyCtaLabel: 'Agendar Horário',
+      storyCtaHref: '#agenda',
+      storyImageUrl:
+        'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=80',
+      ctaImageUrl:
+        'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=80',
+      ctaButtonLabel: 'Agendar Horário',
+      portfolioSectionEyebrow: 'Nossos Serviços',
+      portfolioSectionTitle: 'Cuidado & Excelência Para Você',
       portfolioSectionDescription:
-        'Trabalhos recentes, especialidades sob demanda e trajetória profissional.',
-      calendarSectionEyebrow: 'Agenda Interativa',
-      calendarSectionTitle: 'Calendário de Agendamentos',
+        'De atendimentos personalizados a projetos autorais, unimos técnica apurada e sensibilidade estética em cada detalhe.',
+      calendarSectionEyebrow: 'Agenda Online',
+      calendarSectionTitle: 'Reserve Seu Horário',
       calendarSectionDescription:
-        'Clique em qualquer dia para consultar compromissos, reservar um horário disponível ou enviar uma solicitação de agendamento.',
-      inventorySectionEyebrow: 'Inventário & Vitrine',
-      inventorySectionTitle: 'Produtos & Equipamentos Disponíveis',
+        'Selecione uma data no calendário abaixo para conferir disponibilidade e agendar seu atendimento em tempo real.',
+      inventorySectionEyebrow: 'Curadoria & Produtos',
+      inventorySectionTitle: 'Produtos Selecionados',
       inventorySectionDescription:
-        'Consulte disponibilidade em tempo real, filtre por categoria e clique em um item para ver detalhes, reservar ou demonstrar interesse.',
-      contactSectionEyebrow: 'Contato Direto',
-      contactSectionTitle: 'Vamos conversar sobre seu projeto?',
+        'Explore itens disponíveis no nosso estoque, filtre por categoria e reserve diretamente pela vitrine.',
+      contactSectionEyebrow: 'Pronto para Começar?',
+      contactSectionTitle: 'Pronto para Sua Melhor Experiência?',
       contactSectionDescription:
-        'Entre em contato pelos canais abaixo ou selecione um horário disponível diretamente no calendário acima.',
+        'Agende seu horário hoje mesmo ou fale diretamente conosco pelos canais abaixo.',
       showCalendarSection: true,
       showInventorySection: true,
       allowPublicCustomBooking: true,
       sectionOrder: ['projects', 'calendar', 'inventory'],
-      footerText: '© 2026 Estúdio Atlas • Portfólio, Agenda & Inventário em Tempo Real',
+      footerText: '© 2026 Lumière Estúdio. Todos os direitos reservados.',
       socialLinks: [
         {
           id: 'soc_1',

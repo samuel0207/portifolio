@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Lock, LayoutDashboard, Menu, X, Calendar, Package, Layers } from 'lucide-react';
+import { Lock, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const PublicNavbar: React.FC = () => {
@@ -9,72 +9,71 @@ export const PublicNavbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navItems = [
-    { href: '#projetos', label: 'Portfólio', icon: Layers, visible: true },
-    { href: '#agenda', label: 'Agenda', icon: Calendar, visible: profile.showCalendarSection },
-    { href: '#produtos', label: 'Produtos', icon: Package, visible: profile.showInventorySection },
+    { href: '#inicio', label: 'Início', visible: true },
+    { href: '#projetos', label: 'Serviços', visible: true },
+    { href: '#historia', label: 'Sobre', visible: profile.showStoryBanner },
+    { href: '#produtos', label: 'Produtos', visible: profile.showInventorySection },
+    { href: '#agenda', label: 'Agenda', visible: profile.showCalendarSection },
+    { href: '#contato', label: 'Contato', visible: true },
   ].filter((item) => item.visible);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#222a36]/80 bg-[#0b0e14]/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <a href="#inicio" className="flex items-center gap-2.5">
-          {profile.avatarUrl ? (
-            <img
-              src={profile.avatarUrl}
-              alt={profile.name}
-              className="h-8 w-8 rounded-full border border-[#2f3949] object-cover"
-            />
-          ) : (
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ef5350]/20 text-xs font-bold text-[#ef5350]">
-              {profile.name.slice(0, 2).toUpperCase()}
-            </div>
+    <header className="sticky top-0 z-40 border-b border-[#e8ddd0] bg-[#f8f2eb]/92 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+        {/* Stacked Editorial Serif Brand */}
+        <a href="#inicio" className="group flex flex-col leading-none">
+          <span className="font-editorial text-2xl font-medium tracking-[0.14em] text-[#2a211d] uppercase sm:text-[26px]">
+            {profile.name}
+          </span>
+          {profile.brandTagline && (
+            <span className="mt-0.5 text-[9px] font-medium tracking-[0.32em] text-[#7e6d62] uppercase">
+              {profile.brandTagline}
+            </span>
           )}
-          <div className="leading-tight">
-            <span className="block text-sm font-semibold text-[#e6edf3]">{profile.name}</span>
-            <span className="hidden text-[11px] text-[#7d8898] sm:block">/p/{profile.slug}</span>
-          </div>
         </a>
 
-        {/* Desktop links */}
-        <nav className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-[#9aa5b4] transition hover:bg-[#161b22] hover:text-white"
-              >
-                <Icon className="h-3.5 w-3.5 text-[#7d8898]" />
-                {item.label}
-              </a>
-            );
-          })}
-          <a
-            href="#contato"
-            className="rounded-lg px-3 py-1.5 text-xs font-medium text-[#9aa5b4] transition hover:bg-[#161b22] hover:text-white"
-          >
-            Contato
-          </a>
+        {/* Minimalist Center Navigation */}
+        <nav className="hidden items-center gap-6 md:flex">
+          {navItems.map((item, idx) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className={`relative py-1 text-[11px] font-medium tracking-[0.16em] uppercase transition ${
+                idx === 0
+                  ? 'text-[#b96b4d] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#b96b4d]'
+                  : 'text-[#5c4f47] hover:text-[#b96b4d]'
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
-        {/* Admin entry button */}
+        {/* Right CTA + Subtle Admin Entry */}
         <div className="flex items-center gap-2">
+          {profile.showCalendarSection && (
+            <a
+              href="#agenda"
+              className="hidden rounded-[4px] bg-[#b96b4d] px-4 py-2.5 text-[10px] font-semibold tracking-[0.18em] text-[#fdfaf7] uppercase shadow-sm transition hover:bg-[#a25a3e] sm:inline-flex"
+            >
+              {profile.primaryCtaLabel || 'Agendar Horário'}
+            </a>
+          )}
+
           <Link
             to={isAuthenticated ? '/admin' : '/admin/login'}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#252d3a] bg-[#161b22] px-3 py-1.5 text-xs font-medium text-[#d5dce6] transition hover:border-[#394558] hover:bg-[#1c222d] hover:text-white"
+            title={isAuthenticated ? 'Ir para o Painel Admin' : 'Acesso Administrativo'}
+            className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#dfd0c1] bg-[#fbf8f4] px-2.5 py-2 text-[10px] font-medium tracking-[0.12em] text-[#5c4f47] uppercase transition hover:border-[#b96b4d]/60 hover:text-[#2a211d]"
           >
             {isAuthenticated ? (
               <>
-                <LayoutDashboard className="h-3.5 w-3.5 text-[#ef5350]" />
-                <span className="hidden sm:inline">Painel Admin</span>
-                <span className="sm:hidden">Admin</span>
+                <LayoutDashboard className="h-3.5 w-3.5 text-[#b96b4d]" />
+                <span className="hidden lg:inline">Admin</span>
               </>
             ) : (
               <>
-                <Lock className="h-3.5 w-3.5 text-[#9aa5b4]" />
-                <span className="hidden sm:inline">Acesso Admin</span>
-                <span className="sm:hidden">Admin</span>
+                <Lock className="h-3.5 w-3.5 text-[#8c7b70]" />
+                <span className="hidden lg:inline">Admin</span>
               </>
             )}
           </Link>
@@ -82,7 +81,7 @@ export const PublicNavbar: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileOpen((o) => !o)}
-            className="rounded-lg border border-[#252d3a] bg-[#161b22] p-1.5 text-[#9aa5b4] md:hidden"
+            className="rounded-[4px] border border-[#dfd0c1] bg-[#fbf8f4] p-2 text-[#5c4f47] md:hidden"
             aria-label="Abrir menu"
           >
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -90,27 +89,29 @@ export const PublicNavbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="border-t border-[#222a36] bg-[#0f131a] px-4 py-3 md:hidden">
+        <div className="border-t border-[#e8ddd0] bg-[#fbf8f4] px-4 py-4 md:hidden">
           <div className="flex flex-col gap-1">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-[#c8d1dc] hover:bg-[#161b22]"
+                className="rounded-lg px-3 py-2 text-xs font-medium tracking-[0.14em] text-[#4c4039] uppercase hover:bg-[#f1e7dc] hover:text-[#b96b4d]"
               >
                 {item.label}
               </a>
             ))}
-            <a
-              href="#contato"
-              onClick={() => setMobileOpen(false)}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-[#c8d1dc] hover:bg-[#161b22]"
-            >
-              Contato
-            </a>
+            {profile.showCalendarSection && (
+              <a
+                href="#agenda"
+                onClick={() => setMobileOpen(false)}
+                className="mt-2 rounded-[4px] bg-[#b96b4d] px-4 py-2.5 text-center text-[11px] font-semibold tracking-[0.16em] text-white uppercase"
+              >
+                {profile.primaryCtaLabel || 'Agendar Horário'}
+              </a>
+            )}
           </div>
         </div>
       )}
