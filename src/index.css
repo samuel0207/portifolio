@@ -139,6 +139,14 @@
   background: rgba(255, 255, 255, 0.76);
 }
 
+.studio-input:-webkit-autofill,
+.studio-input:-webkit-autofill:hover,
+.studio-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #18191c;
+  -webkit-box-shadow: 0 0 0px 1000px #eceef0 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .studio-pill-btn {
   background: rgba(255, 255, 255, 0.45);
   border: 1px solid rgba(24, 25, 28, 0.16);

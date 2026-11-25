@@ -36,43 +36,54 @@ export const AdminLoginPage: React.FC = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-[#0b0e14] px-4 py-10">
-      {/* Subtle radial glow */}
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(239,83,80,0.12),_transparent_55%)]" />
-
-      <div className="relative w-full max-w-md space-y-6">
+    <div className="admin-studio-bg flex min-h-screen flex-col items-center justify-center px-4 py-10">
+      <div className="w-full max-w-[430px] space-y-5">
         <div className="flex items-center">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-[#9aa5b4] transition hover:text-white"
+            className="studio-pill-btn inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Voltar ao Portfólio Público
           </Link>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-[#252d3a] bg-[#0f131a] shadow-2xl shadow-black/60">
-          <div className="border-b border-[#252d3a] bg-[#161b22]/70 px-6 py-5">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#ef5350]/35 bg-[#ef5350]/15 text-[#ef5350]">
-                <Lock className="h-5 w-5" />
+        <div className="studio-window overflow-hidden rounded-[26px]">
+          {/* macOS Window Chrome Dots */}
+          <div className="flex items-center justify-between border-b border-black/[0.07] bg-white/30 px-5 py-3.5">
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#e2857b]/85 shadow-inner ring-1 ring-black/10" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#e3c37b]/85 shadow-inner ring-1 ring-black/10" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#8ec49e]/85 shadow-inner ring-1 ring-black/10" />
+            </div>
+            <span className="text-[11px] font-medium text-[#686c75]">Acesso Restrito</span>
+          </div>
+
+          {/* Header */}
+          <div className="border-b border-black/[0.07] bg-white/20 px-6 py-5">
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#1e1f23] text-white shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
+                <Lock className="h-5 w-5" strokeWidth={1.8} />
               </div>
-              <div>
-                <h1 className="text-lg font-bold text-white">Painel do Administrador</h1>
-                <p className="text-xs text-[#8b96a6]">
+              <div className="min-w-0">
+                <h1 className="text-lg font-semibold tracking-tight text-[#18191c]">
+                  Painel do Administrador
+                </h1>
+                <p className="truncate text-xs text-[#666a73]">
                   {data.profile.name} • Gestão de Portfólio, Agenda e Inventário
                 </p>
               </div>
             </div>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4 p-6">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-[#9aa5b4]">
+              <label className="mb-1.5 block text-xs font-medium text-[#4d5159]">
                 E-mail ou Usuário
               </label>
               <div className="relative">
-                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6b7686]" />
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d717a]" />
                 <input
                   type="text"
                   required
@@ -80,15 +91,15 @@ export const AdminLoginPage: React.FC = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Digite seu e-mail ou usuário"
-                  className="w-full rounded-xl border border-[#252d3a] bg-[#0b0e14] py-2.5 pl-10 pr-3.5 text-sm text-[#e6edf3] placeholder-[#5a6575] outline-none transition focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl py-2.5 pl-10 pr-3.5 text-sm outline-none transition"
                 />
               </div>
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-[#9aa5b4]">Senha</label>
+              <label className="mb-1.5 block text-xs font-medium text-[#4d5159]">Senha</label>
               <div className="relative">
-                <KeyRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6b7686]" />
+                <KeyRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d717a]" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -96,12 +107,12 @@ export const AdminLoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-[#252d3a] bg-[#0b0e14] py-2.5 pl-10 pr-10 text-sm text-[#e6edf3] placeholder-[#5a6575] outline-none transition focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl py-2.5 pl-10 pr-10 text-sm outline-none transition"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7d8898] hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6d717a] transition hover:text-[#18191c]"
                   aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -110,14 +121,14 @@ export const AdminLoginPage: React.FC = () => {
             </div>
 
             {error && (
-              <div className="rounded-xl border border-[#ef5350]/40 bg-[#ef5350]/12 px-3.5 py-2.5 text-xs text-[#ffb0ae]">
+              <div className="rounded-xl border border-rose-600/25 bg-rose-600/10 px-3.5 py-2.5 text-xs font-medium text-rose-800">
                 {error}
               </div>
             )}
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#ef5350] py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#ef5350]/20 transition hover:bg-[#f26461]"
+              className="studio-dark-btn mt-1 flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition"
             >
               <ShieldCheck className="h-4 w-4" />
               Entrar no Painel

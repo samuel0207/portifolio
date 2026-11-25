@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
-  Home,
   SlidersHorizontal,
   Layers,
   Calendar,
@@ -17,21 +16,16 @@ import {
   Folder,
   Plus,
   ChevronDown,
-  Sparkles,
   Bell,
   Clock,
-  Share2,
-  Database,
   AlertTriangle,
   Wifi,
-  Asterisk,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const AdminLayout: React.FC = () => {
   const { data, publicUrl, publicPath, syncStatus, logout, notify } = useApp();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [copied, setCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -158,102 +152,18 @@ export const AdminLayout: React.FC = () => {
       end: false,
       count: data.products.length,
     },
+    {
+      to: '/admin/configuracoes',
+      label: 'Configurações',
+      icon: Settings,
+      end: false,
+      count: undefined,
+    },
   ];
-
-  const railIcons = [
-    { to: '/admin', label: 'Visão Geral', icon: Home, end: true },
-    { to: '/admin/portfolio', label: 'Portfólio & Perfil', icon: Sparkles, end: false },
-    { to: '/admin/agenda', label: 'Agenda & Eventos', icon: Calendar, end: false },
-    { to: '/admin/inventario', label: 'Inventário', icon: Package, end: false },
-    { to: '/admin/configuracoes', label: 'Backup & Nuvem', icon: Database, end: false },
-  ];
-
-  const isRouteActive = (to: string, end: boolean) =>
-    end ? location.pathname === to : location.pathname.startsWith(to);
 
   return (
     <div className="admin-studio-bg min-h-screen w-full p-2.5 sm:p-4 lg:p-6">
-      <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-[1440px] gap-3.5 lg:min-h-[calc(100vh-3rem)]">
-        {/* ================================================================
-            LEFT FLOATING ICON RAIL (Exact visual signature of reference)
-           ================================================================ */}
-        <div className="hidden w-[62px] shrink-0 flex-col justify-between gap-3.5 lg:flex">
-          {/* Top Dock Pill */}
-          <div className="studio-dock-pill flex flex-1 flex-col items-center justify-between rounded-[24px] px-2 py-2">
-            {/* Dark Charcoal Inner Capsule */}
-            <div className="flex w-full flex-col items-center gap-1.5 rounded-[18px] bg-[#1e1f23] px-1.5 py-2.5 shadow-[0_12px_24px_rgba(0,0,0,0.28)]">
-              <button
-                type="button"
-                onClick={() => navigate('/admin')}
-                title={data.profile.name}
-                className="mb-1.5 flex h-9 w-9 items-center justify-center rounded-xl text-white/90 transition hover:text-white"
-              >
-                <Asterisk className="h-5 w-5" strokeWidth={1.75} />
-              </button>
-
-              {railIcons.map((item) => {
-                const Icon = item.icon;
-                const active = isRouteActive(item.to, item.end);
-                return (
-                  <NavLink
-                    key={item.to}
-                    to={item.to}
-                    end={item.end}
-                    title={item.label}
-                    className={`flex h-9 w-9 items-center justify-center rounded-[11px] transition ${
-                      active
-                        ? 'bg-white/18 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]'
-                        : 'text-white/55 hover:bg-white/8 hover:text-white/90'
-                    }`}
-                  >
-                    <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
-                  </NavLink>
-                );
-              })}
-
-              <div className="my-1 h-px w-6 bg-white/10" />
-
-              <button
-                type="button"
-                onClick={handleCopyPublicLink}
-                title="Copiar Link Público"
-                className="flex h-9 w-9 items-center justify-center rounded-[11px] text-white/55 transition hover:bg-white/10 hover:text-white"
-              >
-                {copied ? (
-                  <Check className="h-[18px] w-[18px] text-emerald-400" />
-                ) : (
-                  <Share2 className="h-[18px] w-[18px]" strokeWidth={1.75} />
-                )}
-              </button>
-            </div>
-
-            {/* Vertical architectural dock label */}
-            <div className="py-5">
-              <span className="writing-vertical select-none font-mono text-[9px] font-medium uppercase tracking-[0.26em] text-[#7c8089]">
-                ATLAS ADMIN NAV
-              </span>
-            </div>
-          </div>
-
-          {/* Bottom Settings Dock Pill */}
-          <div className="studio-dock-pill flex flex-col items-center justify-between gap-4 rounded-[24px] px-2 pb-2 pt-5">
-            <span className="writing-vertical select-none font-mono text-[9px] font-medium uppercase tracking-[0.26em] text-[#7c8089]">
-              AJUSTES
-            </span>
-            <NavLink
-              to="/admin/configuracoes"
-              title="Configurações & Backup"
-              className={({ isActive }) =>
-                `flex h-11 w-11 items-center justify-center rounded-[15px] bg-[#1e1f23] text-white shadow-[0_8px_18px_rgba(0,0,0,0.25)] transition hover:bg-[#2a2c32] ${
-                  isActive ? 'ring-2 ring-white/80' : ''
-                }`
-              }
-            >
-              <Settings className="h-[18px] w-[18px]" strokeWidth={1.75} />
-            </NavLink>
-          </div>
-        </div>
-
+      <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-[1400px] lg:min-h-[calc(100vh-3rem)]">
         {/* ================================================================
             MAIN FROSTED GLASS WINDOW SHELL
            ================================================================ */}
@@ -351,15 +261,17 @@ export const AdminLayout: React.FC = () => {
                               />
                               <span className="truncate">{item.label}</span>
                             </span>
-                            <span
-                              className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-semibold ${
-                                isActive
-                                  ? 'bg-white/80 text-[#3e424a] shadow-sm'
-                                  : 'bg-black/[0.06] text-[#6b7078]'
-                              }`}
-                            >
-                              {item.count}
-                            </span>
+                            {item.count !== undefined && (
+                              <span
+                                className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-semibold ${
+                                  isActive
+                                    ? 'bg-white/80 text-[#3e424a] shadow-sm'
+                                    : 'bg-black/[0.06] text-[#6b7078]'
+                                }`}
+                              >
+                                {item.count}
+                              </span>
+                            )}
                             {isActive && (
                               <span className="absolute -right-[17px] top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-full bg-white shadow-sm" />
                             )}
@@ -454,7 +366,7 @@ export const AdminLayout: React.FC = () => {
 
               <div className="h-px bg-black/[0.07]" />
 
-              {/* Group 4: Estrutura (Inspired by Documents tree in reference) */}
+              {/* Group 4: Estrutura */}
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between px-2">
                   <p className="text-[11px] font-medium text-[#72767f]">Estrutura</p>
@@ -584,16 +496,7 @@ export const AdminLayout: React.FC = () => {
             {mobileMenuOpen && (
               <div className="border-b border-black/10 bg-white/60 p-3 backdrop-blur-md lg:hidden">
                 <div className="grid gap-1">
-                  {[
-                    ...mainNavItems,
-                    {
-                      to: '/admin/configuracoes',
-                      label: 'Configurações',
-                      icon: Settings,
-                      end: false,
-                      count: undefined,
-                    },
-                  ].map((item) => {
+                  {mainNavItems.map((item) => {
                     const Icon = item.icon;
                     return (
                       <NavLink
