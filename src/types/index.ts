@@ -39,6 +39,8 @@ export interface PortfolioProfile {
   whatsapp: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
+  showPrimaryCta: boolean;
+  showSecondaryCta: boolean;
   // Editorial Hero customization
   heroEyebrow: string;
   heroHeadlineLine1: string;

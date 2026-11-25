@@ -181,6 +181,8 @@ export function createSeedData(): AppData {
       whatsapp: '+55 11 98765-4321',
       primaryCtaLabel: 'Agendar Experiência',
       secondaryCtaLabel: 'Ver Produtos',
+      showPrimaryCta: true,
+      showSecondaryCta: true,
       heroEyebrow: 'Onde a Confiança Floresce',
       heroHeadlineLine1: 'Cuidado Real.',
       heroHeadlineLine2: 'Sua Melhor Versão.',

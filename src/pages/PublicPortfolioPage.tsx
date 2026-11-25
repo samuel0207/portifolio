@@ -233,26 +233,29 @@ export const PublicPortfolioPage: React.FC = () => {
             </p>
 
             {/* Primary & Secondary Actions */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              {profile.showCalendarSection && (
-                <a
-                  href="#agenda"
-                  className="inline-flex items-center gap-2.5 rounded-[4px] bg-[#b96b4d] px-6 py-3.5 text-[11px] font-semibold tracking-[0.18em] text-[#fdfaf7] uppercase shadow-md shadow-[#b96b4d]/20 transition hover:bg-[#9f573b]"
-                >
-                  {profile.primaryCtaLabel || 'Agendar Experiência'}
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </a>
-              )}
+            {((profile.showPrimaryCta && profile.showCalendarSection) ||
+              (profile.showSecondaryCta && profile.showInventorySection)) && (
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                {profile.showPrimaryCta && profile.showCalendarSection && (
+                  <a
+                    href="#agenda"
+                    className="inline-flex items-center gap-2.5 rounded-[4px] bg-[#b96b4d] px-6 py-3.5 text-[11px] font-semibold tracking-[0.18em] text-[#fdfaf7] uppercase shadow-md shadow-[#b96b4d]/20 transition hover:bg-[#9f573b]"
+                  >
+                    {profile.primaryCtaLabel || 'Agendar Experiência'}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
+                )}
 
-              {profile.showInventorySection && (
-                <a
-                  href="#produtos"
-                  className="inline-flex items-center gap-2 rounded-[4px] border border-[#d8c7b6] bg-[#fbf8f4]/80 px-5 py-3.5 text-[11px] font-semibold tracking-[0.16em] text-[#4d413a] uppercase transition hover:border-[#b96b4d] hover:text-[#b96b4d]"
-                >
-                  {profile.secondaryCtaLabel || 'Ver Produtos'}
-                </a>
-              )}
-            </div>
+                {profile.showSecondaryCta && profile.showInventorySection && (
+                  <a
+                    href="#produtos"
+                    className="inline-flex items-center gap-2 rounded-[4px] border border-[#d8c7b6] bg-[#fbf8f4]/80 px-5 py-3.5 text-[11px] font-semibold tracking-[0.16em] text-[#4d413a] uppercase transition hover:border-[#b96b4d] hover:text-[#b96b4d]"
+                  >
+                    {profile.secondaryCtaLabel || 'Ver Produtos'}
+                  </a>
+                )}
+              </div>
+            )}
 
             {/* Social Proof Row */}
             {profile.showSocialProof && (

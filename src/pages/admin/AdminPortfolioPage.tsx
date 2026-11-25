@@ -415,29 +415,53 @@ export const AdminPortfolioPage: React.FC = () => {
 
               <div className="grid gap-3 sm:grid-cols-3">
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-[#52565f]">
-                    Botão Principal
-                  </label>
+                  <div className="mb-1 flex items-center justify-between gap-2">
+                    <label className="text-xs font-medium text-[#52565f]">Botão Principal</label>
+                    <label className="flex cursor-pointer items-center gap-1 text-[11px] text-[#5c6068]">
+                      <input
+                        type="checkbox"
+                        checked={profileForm.showPrimaryCta}
+                        onChange={(e) =>
+                          setProfileForm({ ...profileForm, showPrimaryCta: e.target.checked })
+                        }
+                        className="h-3.5 w-3.5 accent-[#1f2024]"
+                      />
+                      Ativo
+                    </label>
+                  </div>
                   <input
                     type="text"
+                    disabled={!profileForm.showPrimaryCta}
                     value={profileForm.primaryCtaLabel}
                     onChange={(e) =>
                       setProfileForm({ ...profileForm, primaryCtaLabel: e.target.value })
                     }
-                    className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none disabled:opacity-45"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-[#52565f]">
-                    Botão Secundário
-                  </label>
+                  <div className="mb-1 flex items-center justify-between gap-2">
+                    <label className="text-xs font-medium text-[#52565f]">Botão Secundário</label>
+                    <label className="flex cursor-pointer items-center gap-1 text-[11px] text-[#5c6068]">
+                      <input
+                        type="checkbox"
+                        checked={profileForm.showSecondaryCta}
+                        onChange={(e) =>
+                          setProfileForm({ ...profileForm, showSecondaryCta: e.target.checked })
+                        }
+                        className="h-3.5 w-3.5 accent-[#1f2024]"
+                      />
+                      Ativo
+                    </label>
+                  </div>
                   <input
                     type="text"
+                    disabled={!profileForm.showSecondaryCta}
                     value={profileForm.secondaryCtaLabel}
                     onChange={(e) =>
                       setProfileForm({ ...profileForm, secondaryCtaLabel: e.target.value })
                     }
-                    className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none disabled:opacity-45"
                   />
                 </div>
                 <div>

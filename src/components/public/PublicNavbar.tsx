@@ -51,7 +51,7 @@ export const PublicNavbar: React.FC = () => {
 
         {/* Right CTA + Subtle Admin Entry */}
         <div className="flex items-center gap-2">
-          {profile.showCalendarSection && (
+          {profile.showPrimaryCta && profile.showCalendarSection && (
             <a
               href="#agenda"
               className="hidden rounded-[4px] bg-[#b96b4d] px-4 py-2.5 text-[10px] font-semibold tracking-[0.18em] text-[#fdfaf7] uppercase shadow-sm transition hover:bg-[#a25a3e] sm:inline-flex"
@@ -103,7 +103,7 @@ export const PublicNavbar: React.FC = () => {
                 {item.label}
               </a>
             ))}
-            {profile.showCalendarSection && (
+            {profile.showPrimaryCta && profile.showCalendarSection && (
               <a
                 href="#agenda"
                 onClick={() => setMobileOpen(false)}
