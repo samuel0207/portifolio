@@ -7,6 +7,7 @@ interface ModalProps {
   title: string;
   subtitle?: string;
   maxWidthClass?: string;
+  surface?: 'dark' | 'studio';
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   subtitle,
   maxWidthClass = 'max-w-2xl',
+  surface = 'dark',
   children,
 }) => {
   useEffect(() => {
@@ -34,9 +36,13 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!open) return null;
 
+  const isStudio = surface === 'studio';
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-3 backdrop-blur-sm sm:p-6"
+      className={`fixed inset-0 z-50 flex items-center justify-center p-3 backdrop-blur-sm sm:p-6 ${
+        isStudio ? 'bg-black/35' : 'bg-black/75'
+      }`}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -44,21 +50,45 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         role="dialog"
         aria-modal="true"
-        className={`flex max-h-[90vh] w-full ${maxWidthClass} flex-col overflow-hidden rounded-2xl border border-[#252d3a] bg-[#0f131a] shadow-2xl shadow-black/70`}
+        className={`flex max-h-[90vh] w-full ${maxWidthClass} flex-col overflow-hidden rounded-2xl ${
+          isStudio
+            ? 'studio-window text-[#18191c]'
+            : 'border border-[#252d3a] bg-[#0f131a] text-[#e6edf3] shadow-2xl shadow-black/70'
+        }`}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-[#252d3a] bg-[#161b22]/80 px-5 py-4 sm:px-6">
+        <div
+          className={`flex items-start justify-between gap-4 border-b px-5 py-4 sm:px-6 ${
+            isStudio
+              ? 'border-black/10 bg-white/45'
+              : 'border-[#252d3a] bg-[#161b22]/80'
+          }`}
+        >
           <div className="min-w-0">
-            <h3 className="truncate text-base font-semibold text-[#e6edf3] sm:text-lg">
+            <h3
+              className={`truncate text-base font-semibold sm:text-lg ${
+                isStudio ? 'text-[#141518]' : 'text-[#e6edf3]'
+              }`}
+            >
               {title}
             </h3>
             {subtitle && (
-              <p className="mt-0.5 text-xs text-[#8b96a6] sm:text-sm">{subtitle}</p>
+              <p
+                className={`mt-0.5 text-xs sm:text-sm ${
+                  isStudio ? 'text-[#5b6069]' : 'text-[#8b96a6]'
+                }`}
+              >
+                {subtitle}
+              </p>
             )}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg border border-transparent p-1.5 text-[#8b96a6] transition hover:border-[#252d3a] hover:bg-[#1c222d] hover:text-white"
+            className={`rounded-lg border border-transparent p-1.5 transition ${
+              isStudio
+                ? 'text-[#5b6069] hover:border-black/10 hover:bg-white/60 hover:text-[#141518]'
+                : 'text-[#8b96a6] hover:border-[#252d3a] hover:bg-[#1c222d] hover:text-white'
+            }`}
             aria-label="Fechar janela"
           >
             <X className="h-5 w-5" />

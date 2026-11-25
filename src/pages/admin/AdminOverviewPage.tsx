@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  ArrowRight,
+  ArrowUpRight,
+  Clock,
+  Search,
+  ShoppingBag,
+  CheckCircle2,
   Layers,
   Calendar,
   Package,
-  AlertTriangle,
-  ArrowRight,
-  Clock,
-  ShoppingBag,
-  CheckCircle2,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-import { EventStatusBadge } from '../../components/ui/StatusBadge';
-import { formatDateBR, formatTimeRange } from '../../utils/format';
+import { EventStatusBadge, ProductStatusBadge } from '../../components/ui/StatusBadge';
+import { formatCurrencyBRL, formatDateBR, formatTimeRange } from '../../utils/format';
+
+type OverviewTab = 'agenda' | 'reservas' | 'inventario';
 
 export const AdminOverviewPage: React.FC = () => {
   const { data } = useApp();
+  const [activeTab, setActiveTab] = useState<OverviewTab>('agenda');
+  const [query, setQuery] = useState('');
 
   const visiblePortfolio = data.portfolioItems.filter((i) => i.visible).length;
   const availableSlots = data.events.filter((e) => e.status === 'Disponível').length;
@@ -26,163 +31,315 @@ export const AdminOverviewPage: React.FC = () => {
   ).length;
   const pendingInterests = data.productInterests.filter((i) => !i.resolved);
 
-  const upcomingEvents = [...data.events]
-    .sort((a, b) => `${a.date}${a.startTime || ''}`.localeCompare(`${b.date}${b.startTime || ''}`))
-    .slice(0, 5);
+  const filteredEvents = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return [...data.events]
+      .sort((a, b) => `${a.date}${a.startTime || ''}`.localeCompare(`${b.date}${b.startTime || ''}`))
+      .filter((ev) => {
+        if (!q) return true;
+        return (
+          ev.title.toLowerCase().includes(q) ||
+          (ev.clientName || '').toLowerCase().includes(q) ||
+          ev.status.toLowerCase().includes(q)
+        );
+      })
+      .slice(0, 8);
+  }, [data.events, query]);
+
+  const filteredInterests = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return data.productInterests.filter((item) => {
+      if (!q) return true;
+      return (
+        item.productName.toLowerCase().includes(q) ||
+        item.visitorName.toLowerCase().includes(q) ||
+        item.productSku.toLowerCase().includes(q)
+      );
+    });
+  }, [data.productInterests, query]);
+
+  const filteredProducts = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return data.products.filter((p) => {
+      if (!q) return true;
+      return (
+        p.name.toLowerCase().includes(q) ||
+        p.sku.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q)
+      );
+    });
+  }, [data.products, query]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Main Page Heading (Matches Reference Typography) */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">Visão Geral</h1>
-        <p className="mt-1 text-sm text-[#8b96a6]">
-          Resumo operacional do seu portfólio público, agenda de atendimentos e inventário.
+        <h1 className="text-3xl font-semibold tracking-tight text-[#18191c]">Visão Geral</h1>
+        <p className="mt-1 text-sm text-[#686c75]">
+          Todos os seus projetos, agendamentos e controle de inventário em um só lugar.
         </p>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#8b96a6]">Itens no Portfólio</span>
-            <span className="rounded-lg bg-sky-500/10 p-2 text-sky-400">
-              <Layers className="h-4 w-4" />
-            </span>
-          </div>
-          <p className="mt-3 text-2xl font-bold text-white">{data.portfolioItems.length}</p>
-          <p className="mt-1 text-xs text-[#7d8898]">{visiblePortfolio} visíveis publicamente</p>
-        </div>
-
-        <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#8b96a6]">Agenda do Mês</span>
-            <span className="rounded-lg bg-emerald-500/10 p-2 text-emerald-400">
-              <Calendar className="h-4 w-4" />
-            </span>
-          </div>
-          <p className="mt-3 text-2xl font-bold text-white">{reservedEvents}</p>
-          <p className="mt-1 text-xs text-emerald-400">{availableSlots} horários livres abertos</p>
-        </div>
-
-        <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#8b96a6]">Produtos em Estoque</span>
-            <span className="rounded-lg bg-violet-500/10 p-2 text-violet-400">
-              <Package className="h-4 w-4" />
-            </span>
-          </div>
-          <p className="mt-3 text-2xl font-bold text-white">{totalStock} un.</p>
-          <p className="mt-1 text-xs text-[#7d8898]">{data.products.length} produtos cadastrados</p>
-        </div>
-
-        <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#8b96a6]">Alertas & Solicitações</span>
-            <span className="rounded-lg bg-[#ef5350]/12 p-2 text-[#ef5350]">
-              <AlertTriangle className="h-4 w-4" />
-            </span>
-          </div>
-          <p className="mt-3 text-2xl font-bold text-white">
-            {lowOrOutCount + pendingInterests.length}
-          </p>
-          <p className="mt-1 text-xs text-[#8b96a6]">
-            {lowOrOutCount} estoque baixo/zerado • {pendingInterests.length} interesse(s)
-          </p>
-        </div>
-      </div>
-
-      {/* Two column panels */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Upcoming Schedule */}
-        <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-base font-semibold text-white">Próximos Eventos na Agenda</h2>
-              <p className="text-xs text-[#8b96a6]">Horários reservados, disponíveis e bloqueios</p>
+      {/* Hero Metric Cards (Matches the iconic Executions 340 + pill + See Report -> cards) */}
+      <div className="grid gap-4 md:grid-cols-3">
+        {/* Card 1: Agenda */}
+        <div className="studio-card flex flex-col justify-between rounded-[22px] p-5">
+          <div>
+            <p className="text-xs font-medium text-[#52565f]">Agendamentos</p>
+            <div className="mt-3 flex items-baseline gap-3">
+              <span className="text-5xl font-light tracking-tight text-[#23252a]">
+                {data.events.length}
+              </span>
+              <span className="inline-flex items-center gap-0.5 rounded-lg bg-[#b9d7ca]/80 px-2 py-0.5 text-[11px] font-semibold text-[#1f624c]">
+                <ArrowUpRight className="h-3 w-3" />
+                {availableSlots} livres
+              </span>
             </div>
+            <p className="mt-1.5 text-[11px] text-[#6c7079]">
+              {reservedEvents} compromisso(s) reservado(s)
+            </p>
+          </div>
+
+          <div className="mt-5">
             <Link
               to="/admin/agenda"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#ef5350] hover:underline"
+              className="studio-pill-btn inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition"
             >
-              Gerenciar
+              Ver Agenda
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
-
-          <div className="space-y-2.5">
-            {upcomingEvents.map((ev) => (
-              <div
-                key={ev.id}
-                className="flex items-center justify-between gap-3 rounded-xl border border-[#222a36] bg-[#161b22] px-3.5 py-3"
-              >
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-medium text-[#e6edf3]">{ev.title}</p>
-                  <p className="mt-0.5 flex items-center gap-2 font-mono text-[11px] text-[#8b96a6]">
-                    <span>{formatDateBR(ev.date)}</span>
-                    <span>•</span>
-                    <span className="inline-flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {formatTimeRange(ev.allDay, ev.startTime, ev.endTime)}
-                    </span>
-                  </p>
-                </div>
-                <EventStatusBadge status={ev.status} />
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* Pending Product Interests */}
-        <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-base font-semibold text-white">
-                Reservas & Interesses de Produtos
-              </h2>
-              <p className="text-xs text-[#8b96a6]">
-                Solicitações feitas por visitantes na vitrine pública
-              </p>
+        {/* Card 2: Inventário */}
+        <div className="studio-card flex flex-col justify-between rounded-[22px] p-5">
+          <div>
+            <p className="text-xs font-medium text-[#52565f]">Itens em Estoque</p>
+            <div className="mt-3 flex items-baseline gap-3">
+              <span className="text-5xl font-light tracking-tight text-[#23252a]">
+                {totalStock}
+              </span>
+              <span
+                className={`inline-flex items-center gap-0.5 rounded-lg px-2 py-0.5 text-[11px] font-semibold ${
+                  lowOrOutCount > 0
+                    ? 'bg-amber-600/15 text-amber-900'
+                    : 'bg-[#b9d7ca]/80 text-[#1f624c]'
+                }`}
+              >
+                {lowOrOutCount > 0 ? `${lowOrOutCount} alerta(s)` : 'Em dia'}
+              </span>
             </div>
+            <p className="mt-1.5 text-[11px] text-[#6c7079]">
+              {data.products.length} produtos cadastrados • {pendingInterests.length} reserva(s)
+            </p>
+          </div>
+
+          <div className="mt-5">
             <Link
               to="/admin/inventario"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#ef5350] hover:underline"
+              className="studio-pill-btn inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition"
             >
               Ver Inventário
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
+        </div>
 
-          {pendingInterests.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-[#252d3a] bg-[#161b22]/50 py-10 text-center">
-              <CheckCircle2 className="mx-auto h-8 w-8 text-emerald-400/70" />
-              <p className="mt-2 text-sm font-medium text-[#d5dce6]">Tudo em dia!</p>
-              <p className="mt-0.5 text-xs text-[#8b96a6]">
-                Nenhuma reserva ou interesse pendente no momento.
-              </p>
+        {/* Card 3: Portfólio */}
+        <div className="studio-card flex flex-col justify-between rounded-[22px] p-5">
+          <div>
+            <p className="text-xs font-medium text-[#52565f]">Portfólio Publicado</p>
+            <div className="mt-3 flex items-baseline gap-3">
+              <span className="text-5xl font-light tracking-tight text-[#23252a]">
+                {visiblePortfolio}
+              </span>
+              <span className="inline-flex items-center gap-0.5 rounded-lg bg-[#b9d7ca]/80 px-2 py-0.5 text-[11px] font-semibold text-[#1f624c]">
+                de {data.portfolioItems.length}
+              </span>
             </div>
-          ) : (
-            <div className="space-y-2.5">
-              {pendingInterests.slice(0, 5).map((item) => (
-                <div
-                  key={item.id}
-                  className="rounded-xl border border-[#222a36] bg-[#161b22] px-3.5 py-3"
+            <p className="mt-1.5 text-[11px] text-[#6c7079]">
+              Projetos, serviços e experiências visíveis
+            </p>
+          </div>
+
+          <div className="mt-5">
+            <Link
+              to="/admin/portfolio"
+              className="studio-pill-btn inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition"
+            >
+              Editar Portfólio
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Activity Section (Matches Reference Executions -> Workflows | Permissions -> Search -> Card) */}
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-2xl font-medium tracking-tight text-[#18191c]">Atividades</h2>
+
+          {/* Underline Tabs */}
+          <div className="mt-3 flex items-center gap-6 border-b border-black/10">
+            {(
+              [
+                { key: 'agenda', label: 'Próximos Eventos', icon: Calendar },
+                {
+                  key: 'reservas',
+                  label: `Reservas de Produtos (${pendingInterests.length})`,
+                  icon: ShoppingBag,
+                },
+                { key: 'inventario', label: 'Resumo do Estoque', icon: Package },
+              ] as const
+            ).map((tab) => {
+              const active = activeTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`relative pb-2.5 text-xs font-medium transition sm:text-sm ${
+                    active ? 'text-[#141518]' : 'text-[#72767f] hover:text-[#2f3238]'
+                  }`}
                 >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <ShoppingBag className="h-4 w-4 text-amber-400" />
-                      <p className="text-sm font-medium text-white">{item.productName}</p>
+                  {tab.label}
+                  {active && (
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#1f2024]" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Search Input */}
+        <div className="relative max-w-md">
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d717a]" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar em atividades..."
+            className="studio-input w-full rounded-xl py-2 pl-10 pr-3.5 text-xs outline-none sm:text-sm"
+          />
+        </div>
+
+        {/* Frosted Activity Container */}
+        <div className="studio-card rounded-[22px] p-4 sm:p-5">
+          {activeTab === 'agenda' && (
+            <div className="divide-y divide-black/[0.07]">
+              {filteredEvents.length === 0 ? (
+                <div className="py-10 text-center text-xs text-[#686c75]">
+                  Nenhum evento encontrado para esta busca.
+                </div>
+              ) : (
+                filteredEvents.map((ev) => (
+                  <div
+                    key={ev.id}
+                    className="flex flex-col gap-2 py-3 first:pt-1 last:pb-1 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-[#18191c]">{ev.title}</p>
+                      <p className="mt-0.5 flex flex-wrap items-center gap-2 font-mono text-[11px] text-[#666a73]">
+                        <span>{formatDateBR(ev.date)}</span>
+                        <span>•</span>
+                        <span className="inline-flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {formatTimeRange(ev.allDay, ev.startTime, ev.endTime)}
+                        </span>
+                        {ev.clientName && (
+                          <>
+                            <span>•</span>
+                            <span className="font-sans text-[#3c3f46]">{ev.clientName}</span>
+                          </>
+                        )}
+                      </p>
                     </div>
-                    <span className="rounded-md bg-[#0f131a] px-2 py-0.5 font-mono text-[11px] text-[#c8d1dc]">
-                      {item.quantity}x
+                    <div className="flex items-center gap-2 self-start sm:self-center">
+                      <EventStatusBadge status={ev.status} surface="studio" />
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
+          {activeTab === 'reservas' && (
+            <div className="divide-y divide-black/[0.07]">
+              {filteredInterests.length === 0 ? (
+                <div className="py-10 text-center">
+                  <CheckCircle2 className="mx-auto h-7 w-7 text-emerald-700/70" />
+                  <p className="mt-2 text-sm font-medium text-[#2c2f36]">
+                    Nenhuma reserva ou interesse encontrado
+                  </p>
+                </div>
+              ) : (
+                filteredInterests.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-col gap-2 py-3 first:pt-1 last:pb-1 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="truncate text-sm font-medium text-[#18191c]">
+                          {item.productName}
+                        </p>
+                        <span className="rounded-full bg-black/[0.07] px-2 py-0.5 font-mono text-[10px] font-semibold text-[#3c3f46]">
+                          {item.quantity}x
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-xs text-[#666a73]">
+                        {item.visitorName} • {item.visitorContact}
+                        {item.notes ? ` — “${item.notes}”` : ''}
+                      </p>
+                    </div>
+                    <span
+                      className={`self-start rounded-full px-2.5 py-0.5 text-[11px] font-medium sm:self-center ${
+                        item.resolved
+                          ? 'bg-black/[0.07] text-[#555962]'
+                          : 'bg-emerald-600/15 text-emerald-800'
+                      }`}
+                    >
+                      {item.resolved ? 'Atendido' : 'Pendente'}
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-[#9aa5b4]">
-                    {item.visitorName} • {item.visitorContact}
-                  </p>
-                  {item.notes && (
-                    <p className="mt-1 text-xs italic text-[#7d8898]">“{item.notes}”</p>
-                  )}
+                ))
+              )}
+            </div>
+          )}
+
+          {activeTab === 'inventario' && (
+            <div className="divide-y divide-black/[0.07]">
+              {filteredProducts.length === 0 ? (
+                <div className="py-10 text-center text-xs text-[#686c75]">
+                  Nenhum produto encontrado.
                 </div>
-              ))}
+              ) : (
+                filteredProducts.map((prod) => (
+                  <div
+                    key={prod.id}
+                    className="flex flex-col gap-2 py-3 first:pt-1 last:pb-1 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <Layers className="h-3.5 w-3.5 text-[#686c75]" />
+                        <p className="truncate text-sm font-medium text-[#18191c]">{prod.name}</p>
+                        <span className="font-mono text-[11px] text-[#6d717a]">{prod.sku}</span>
+                      </div>
+                      <p className="mt-0.5 text-xs text-[#666a73]">
+                        {prod.category} •{' '}
+                        {prod.showPrice ? formatCurrencyBRL(prod.price) : 'Preço oculto'}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2.5 self-start sm:self-center">
+                      <span className="font-mono text-xs font-semibold text-[#23252a]">
+                        {prod.stock} un.
+                      </span>
+                      <ProductStatusBadge status={prod.status} surface="studio" />
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           )}
         </div>

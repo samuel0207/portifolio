@@ -64,3 +64,112 @@
 .animate-toast {
   animation: slideInRight 0.22s ease-out;
 }
+
+/* ==========================================================================
+   Admin Tactile Silver-Frost Studio Theme (Inspired by Reference Layout)
+   ========================================================================== */
+.admin-studio-bg {
+  background: radial-gradient(circle at 18% 12%, #dfe1e4 0%, #c8cacd 48%, #b7b9bd 100%);
+  color: #18191c;
+  color-scheme: light;
+}
+
+.studio-dock-pill {
+  background: linear-gradient(180deg, rgba(226, 228, 231, 0.92) 0%, rgba(202, 204, 208, 0.92) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 18px 36px rgba(15, 18, 24, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.studio-window {
+  background: linear-gradient(160deg, rgba(222, 224, 227, 0.94) 0%, rgba(205, 207, 211, 0.94) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 28px 70px rgba(15, 18, 24, 0.18),
+    0 4px 16px rgba(15, 18, 24, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.studio-card {
+  background: linear-gradient(180deg, rgba(232, 234, 237, 0.86) 0%, rgba(217, 219, 223, 0.82) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  box-shadow:
+    0 8px 24px rgba(15, 18, 24, 0.06),
+    0 1px 2px rgba(15, 18, 24, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.studio-subcard {
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(24, 25, 28, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.studio-active-nav {
+  background: linear-gradient(90deg, rgba(240, 242, 244, 0.96) 0%, rgba(224, 226, 230, 0.92) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 8px 18px rgba(15, 18, 24, 0.09),
+    0 1px 2px rgba(15, 18, 24, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.studio-input {
+  background: rgba(255, 255, 255, 0.48);
+  border: 1px solid rgba(24, 25, 28, 0.14);
+  color: #18191c;
+  box-shadow: inset 0 1px 2px rgba(15, 18, 24, 0.04);
+}
+
+.studio-input::placeholder {
+  color: #747881;
+}
+
+.studio-input:focus {
+  border-color: rgba(24, 25, 28, 0.45);
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.studio-pill-btn {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(24, 25, 28, 0.16);
+  color: #1c1d21;
+  box-shadow: 0 2px 6px rgba(15, 18, 24, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.studio-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(24, 25, 28, 0.28);
+}
+
+.studio-dark-btn {
+  background: #1f2024;
+  color: #f4f5f7;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 16px rgba(15, 18, 24, 0.22);
+}
+
+.studio-dark-btn:hover {
+  background: #2b2d33;
+}
+
+.writing-vertical {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* Custom light scrollbars inside admin studio */
+.admin-studio-bg ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.admin-studio-bg ::-webkit-scrollbar-thumb {
+  background: rgba(24, 25, 28, 0.18);
+  border-radius: 9999px;
+}
+
+.admin-studio-bg ::-webkit-scrollbar-thumb:hover {
+  background: rgba(24, 25, 28, 0.32);
+}
+

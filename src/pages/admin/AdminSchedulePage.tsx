@@ -82,10 +82,12 @@ export const AdminSchedulePage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Agenda & Agendamentos</h1>
-          <p className="mt-1 text-sm text-[#8b96a6]">
+          <h1 className="text-3xl font-semibold tracking-tight text-[#18191c]">
+            Agenda & Agendamentos
+          </h1>
+          <p className="mt-1 text-sm text-[#686c75]">
             Gerencie horários disponíveis, reservas feitas por visitantes e dias bloqueados.
           </p>
         </div>
@@ -93,14 +95,14 @@ export const AdminSchedulePage: React.FC = () => {
         <button
           type="button"
           onClick={() => openCreateModal()}
-          className="inline-flex items-center gap-2 self-start rounded-xl bg-[#ef5350] px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-[#ef5350]/20 transition hover:bg-[#f26461] sm:self-auto"
+          className="studio-dark-btn inline-flex items-center gap-2 self-start rounded-full px-4 py-2 text-xs font-semibold sm:self-auto"
         >
           <Plus className="h-4 w-4" />
           Novo Evento / Horário
         </button>
       </div>
 
-      {/* Main Dark Reference Calendar */}
+      {/* Signature Dark Reference Calendar framed cleanly inside the Studio Window */}
       <DarkScheduleCalendar
         events={data.events}
         mode="admin"
@@ -109,31 +111,31 @@ export const AdminSchedulePage: React.FC = () => {
       />
 
       {/* Detailed Events & Visitor Bookings Table */}
-      <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
+      <div className="studio-card rounded-[22px] p-5">
         <div className="flex flex-col gap-3 pb-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-base font-semibold text-white">Lista de Eventos & Reservas</h2>
-            <p className="text-xs text-[#8b96a6]">
+            <h2 className="text-base font-semibold text-[#18191c]">Lista de Eventos & Reservas</h2>
+            <p className="text-xs text-[#686c75]">
               Clique em um evento para editar status, horário ou consultar dados do cliente.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#6b7686]" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#6d717a]" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Buscar título ou cliente..."
-                className="w-52 rounded-lg border border-[#252d3a] bg-[#0b0e14] py-1.5 pl-8 pr-3 text-xs text-white placeholder-[#5a6575] outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-52 rounded-xl py-1.5 pl-8 pr-3 text-xs outline-none"
               />
             </div>
 
             <select
               value={listFilter}
               onChange={(e) => setListFilter(e.target.value as typeof listFilter)}
-              className="rounded-lg border border-[#252d3a] bg-[#161b22] px-2.5 py-1.5 text-xs text-[#d5dce6] outline-none"
+              className="studio-input rounded-xl px-2.5 py-1.5 text-xs outline-none"
             >
               <option value="Todos">Todos os status</option>
               <option value="Disponível">Disponível</option>
@@ -145,12 +147,12 @@ export const AdminSchedulePage: React.FC = () => {
         </div>
 
         {filteredList.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-[#252d3a] bg-[#161b22]/40 py-10 text-center">
-            <CalendarIcon className="mx-auto h-8 w-8 text-[#5a6575]" />
-            <p className="mt-2 text-sm text-[#c8d1dc]">Nenhum evento encontrado.</p>
+          <div className="studio-subcard rounded-2xl py-10 text-center">
+            <CalendarIcon className="mx-auto h-8 w-8 text-[#72767f]" />
+            <p className="mt-2 text-sm text-[#4a4e57]">Nenhum evento encontrado.</p>
           </div>
         ) : (
-          <div className="divide-y divide-[#222a36]">
+          <div className="divide-y divide-black/[0.07]">
             {filteredList.map((ev) => (
               <div
                 key={ev.id}
@@ -158,34 +160,34 @@ export const AdminSchedulePage: React.FC = () => {
               >
                 <div className="min-w-0 flex-1 space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-md bg-[#161b22] px-2 py-0.5 font-mono text-[11px] font-semibold text-[#c8d1dc]">
+                    <span className="rounded-md bg-black/[0.07] px-2 py-0.5 font-mono text-[11px] font-semibold text-[#23252a]">
                       {formatDateBR(ev.date)}
                     </span>
-                    <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[#9aa5b4]">
+                    <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[#555962]">
                       <Clock className="h-3 w-3 text-[#ef5350]" />
                       {formatTimeRange(ev.allDay, ev.startTime, ev.endTime)}
                     </span>
-                    <EventStatusBadge status={ev.status} />
+                    <EventStatusBadge status={ev.status} surface="studio" />
                     {ev.bookedByVisitor && (
-                      <span className="rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[10px] font-semibold text-sky-300">
+                      <span className="rounded-full border border-sky-700/20 bg-sky-600/10 px-2 py-0.5 text-[10px] font-semibold text-sky-800">
                         Via Portfólio Público
                       </span>
                     )}
                   </div>
 
-                  <p className="text-sm font-semibold text-white">{ev.title}</p>
+                  <p className="text-sm font-semibold text-[#18191c]">{ev.title}</p>
 
                   {(ev.clientName || ev.clientContact || ev.notes) && (
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#8b96a6]">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#666a73]">
                       {ev.clientName && (
-                        <span className="inline-flex items-center gap-1 text-[#c8d1dc]">
-                          <User className="h-3 w-3 text-[#6b7686]" />
+                        <span className="inline-flex items-center gap-1 text-[#2c2f36]">
+                          <User className="h-3 w-3 text-[#6d717a]" />
                           {ev.clientName}
                         </span>
                       )}
                       {ev.clientContact && (
                         <span className="inline-flex items-center gap-1">
-                          <Phone className="h-3 w-3 text-[#6b7686]" />
+                          <Phone className="h-3 w-3 text-[#6d717a]" />
                           {ev.clientContact}
                         </span>
                       )}
@@ -198,7 +200,7 @@ export const AdminSchedulePage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => openEditModal(ev)}
-                    className="inline-flex items-center gap-1 rounded-lg border border-[#252d3a] bg-[#161b22] px-2.5 py-1.5 text-xs font-medium text-[#d5dce6] transition hover:bg-[#1c222d] hover:text-white"
+                    className="studio-pill-btn inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium"
                   >
                     <Pencil className="h-3.5 w-3.5" />
                     Editar
@@ -213,7 +215,7 @@ export const AdminSchedulePage: React.FC = () => {
                         message: `"${ev.title}" foi removido.`,
                       });
                     }}
-                    className="rounded-lg border border-[#252d3a] bg-[#161b22] p-1.5 text-[#9aa5b4] transition hover:border-[#ef5350]/50 hover:text-[#ef5350]"
+                    className="studio-pill-btn rounded-full p-1.5 hover:text-rose-600"
                     title="Excluir evento"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -225,7 +227,7 @@ export const AdminSchedulePage: React.FC = () => {
         )}
       </div>
 
-      {/* Modals */}
+      {/* Calendar Modals */}
       <DayScheduleModal
         isoDate={selectedDay}
         onClose={() => setSelectedDay(null)}

@@ -110,31 +110,31 @@ export const AdminSettingsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">
-          Configurações, Backup & Integração
+        <h1 className="text-3xl font-semibold tracking-tight text-[#18191c]">
+          Configurações & Backup
         </h1>
-        <p className="mt-1 text-sm text-[#8b96a6]">
+        <p className="mt-1 text-sm text-[#686c75]">
           Gerencie seu link público, exporte/importe backups em JSON ou acompanhe a sincronização
           com Supabase.
         </p>
       </div>
 
       {/* Public Link Card */}
-      <div className="rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-        <h2 className="text-sm font-semibold text-white">Link Público do Portfólio</h2>
-        <p className="mt-1 text-xs text-[#8b96a6]">
+      <div className="studio-card rounded-[22px] p-5">
+        <h2 className="text-sm font-semibold text-[#18191c]">Link Público do Portfólio</h2>
+        <p className="mt-1 text-xs text-[#686c75]">
           Compartilhe este endereço com clientes e visitantes. Ele reflete instantaneamente todas as
           alterações salvas no painel.
         </p>
         <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:items-center">
-          <div className="flex-1 truncate rounded-xl border border-[#252d3a] bg-[#0b0e14] px-3.5 py-2.5 font-mono text-xs text-[#e6edf3]">
+          <div className="studio-input flex-1 truncate rounded-xl px-3.5 py-2.5 font-mono text-xs">
             {publicUrl}
           </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handleCopy}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#252d3a] bg-[#161b22] px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-[#1c222d]"
+              className="studio-pill-btn inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
             >
               <Copy className="h-3.5 w-3.5" />
               Copiar
@@ -143,7 +143,7 @@ export const AdminSettingsPage: React.FC = () => {
               href={publicPath}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#ef5350] px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-[#f26461]"
+              className="studio-dark-btn inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
             >
               <ExternalLink className="h-3.5 w-3.5" />
               Abrir
@@ -153,25 +153,29 @@ export const AdminSettingsPage: React.FC = () => {
       </div>
 
       {/* Backup JSON & Supabase */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-4 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
+      <div className="grid gap-5 lg:grid-cols-2">
+        <div className="studio-card space-y-4 rounded-[22px] p-5">
           <div className="flex items-center gap-2.5">
-            <Database className="h-5 w-5 text-sky-400" />
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1f2024] text-white">
+              <Database className="h-4 w-4" />
+            </span>
             <div>
-              <h2 className="text-sm font-semibold text-white">Persistência Local & Backup JSON</h2>
-              <p className="text-xs text-[#8b96a6]">
+              <h2 className="text-sm font-semibold text-[#18191c]">
+                Persistência Local & Backup JSON
+              </h2>
+              <p className="text-xs text-[#686c75]">
                 Exporte seus dados ou restaure um snapshot salvo anteriormente.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={handleExport}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#252d3a] bg-[#161b22] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#1c222d]"
+              className="studio-pill-btn inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold"
             >
-              <Download className="h-4 w-4 text-emerald-400" />
+              <Download className="h-3.5 w-3.5 text-emerald-700" />
               Exportar JSON
             </button>
 
@@ -185,31 +189,35 @@ export const AdminSettingsPage: React.FC = () => {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#252d3a] bg-[#161b22] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#1c222d]"
+              className="studio-pill-btn inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold"
             >
-              <Upload className="h-4 w-4 text-sky-400" />
+              <Upload className="h-3.5 w-3.5 text-sky-700" />
               Importar JSON
             </button>
 
             <button
               type="button"
               onClick={handleReset}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#ef5350]/35 bg-[#ef5350]/10 px-4 py-2.5 text-xs font-semibold text-[#ff9b99] hover:bg-[#ef5350]/20"
+              className="inline-flex items-center gap-2 rounded-full border border-rose-600/25 bg-rose-600/10 px-4 py-2 text-xs font-semibold text-rose-800 transition hover:bg-rose-600/20"
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-3.5 w-3.5" />
               Restaurar Dados Demo
             </button>
           </div>
         </div>
 
         {/* Auth & Supabase Live Status */}
-        <div className="space-y-3 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
+        <div className="studio-card space-y-3 rounded-[22px] p-5">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
-              <Shield className="h-5 w-5 text-amber-400" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1f2024] text-white">
+                <Shield className="h-4 w-4" />
+              </span>
               <div>
-                <h2 className="text-sm font-semibold text-white">Supabase & Deploy na Vercel</h2>
-                <p className="text-xs text-[#8b96a6]">
+                <h2 className="text-sm font-semibold text-[#18191c]">
+                  Supabase & Deploy na Vercel
+                </h2>
+                <p className="text-xs text-[#686c75]">
                   Sincronização em nuvem e variáveis de ambiente.
                 </p>
               </div>
@@ -219,7 +227,7 @@ export const AdminSettingsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleManualSync}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[#252d3a] bg-[#161b22] px-2.5 py-1.5 text-xs font-medium text-[#e6edf3] hover:bg-[#1c222d]"
+                className="studio-pill-btn inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium"
               >
                 <RefreshCw
                   className={`h-3.5 w-3.5 ${syncStatus === 'syncing' ? 'animate-spin' : ''}`}
@@ -229,18 +237,18 @@ export const AdminSettingsPage: React.FC = () => {
             )}
           </div>
 
-          <div className="space-y-2 rounded-xl border border-[#222a36] bg-[#161b22] p-3.5 text-xs">
+          <div className="studio-subcard space-y-2 rounded-xl p-3.5 text-xs">
             <div className="flex items-center gap-2">
               {syncStatus === 'synced' ? (
-                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-700" />
               ) : syncStatus === 'error' ? (
-                <AlertTriangle className="h-4 w-4 text-[#ef5350]" />
+                <AlertTriangle className="h-4 w-4 text-rose-600" />
               ) : (
-                <Database className="h-4 w-4 text-sky-400" />
+                <Database className="h-4 w-4 text-sky-700" />
               )}
-              <span className="text-[#c8d1dc]">
+              <span className="text-[#4a4e57]">
                 Armazenamento:{' '}
-                <strong className="text-white">
+                <strong className="text-[#18191c]">
                   {syncStatus === 'synced'
                     ? 'Supabase Conectado (Realtime ativo)'
                     : syncStatus === 'syncing'
@@ -252,17 +260,18 @@ export const AdminSettingsPage: React.FC = () => {
               </span>
             </div>
 
-            {syncError && <p className="text-[11px] text-[#ff9b99]">{syncError}</p>}
+            {syncError && <p className="text-[11px] text-rose-700">{syncError}</p>}
 
-            <p className="text-[#8b96a6]">
+            <p className="text-[#555962]">
               Usuário admin atual:{' '}
-              <code className="text-[#e6edf3]">{ADMIN_AUTH_CONFIG.username}</code>
+              <code className="rounded bg-black/[0.07] px-1.5 py-0.5 text-[#18191c]">
+                {ADMIN_AUTH_CONFIG.username}
+              </code>
             </p>
-            <p className="text-[11px] leading-relaxed text-[#7d8898]">
-              Para ativar o banco na nuvem, execute <code>supabase/schema.sql</code> no Supabase e
-              configure <code>VITE_SUPABASE_URL</code>, <code>VITE_SUPABASE_ANON_KEY</code>,{' '}
-              <code>VITE_ADMIN_USER</code> e <code>VITE_ADMIN_PASS</code> nas Environment Variables
-              da Vercel.
+            <p className="text-[11px] leading-relaxed text-[#666a73]">
+              Para manter tudo sincronizado em produção, mantenha{' '}
+              <code>VITE_SUPABASE_URL</code>, <code>VITE_SUPABASE_ANON_KEY</code>,{' '}
+              <code>VITE_ADMIN_USER</code> e <code>VITE_ADMIN_PASS</code> configurados na Vercel.
             </p>
           </div>
         </div>

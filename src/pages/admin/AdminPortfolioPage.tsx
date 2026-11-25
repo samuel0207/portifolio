@@ -197,142 +197,164 @@ export const AdminPortfolioPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      {/* Header + Underline Tabs */}
+      <div className="space-y-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Portfólio & Perfil</h1>
-          <p className="mt-1 text-sm text-[#8b96a6]">
-            Personalize cabeçalho, textos, imagens, links sociais e todos os blocos públicos.
+          <h1 className="text-3xl font-semibold tracking-tight text-[#18191c]">
+            Portfólio & Perfil
+          </h1>
+          <p className="mt-1 text-sm text-[#686c75]">
+            Personalize cabeçalho, textos das seções, imagens, links sociais e todos os blocos
+            públicos.
           </p>
         </div>
 
-        <div className="flex items-center gap-1 rounded-xl border border-[#252d3a] bg-[#0f131a] p-1 self-start sm:self-auto">
+        <div className="flex items-center gap-6 border-b border-black/10">
           <button
             type="button"
             onClick={() => setActiveTab('profile')}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
-              activeTab === 'profile'
-                ? 'bg-[#1c222d] text-white'
-                : 'text-[#8b96a6] hover:text-white'
+            className={`relative inline-flex items-center gap-2 pb-2.5 text-xs font-medium transition sm:text-sm ${
+              activeTab === 'profile' ? 'text-[#141518]' : 'text-[#72767f] hover:text-[#2f3238]'
             }`}
           >
-            <User className="h-3.5 w-3.5" />
+            <User className="h-4 w-4" />
             Cabeçalho & Perfil
+            {activeTab === 'profile' && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#1f2024]" />
+            )}
           </button>
+
           <button
             type="button"
             onClick={() => setActiveTab('items')}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
-              activeTab === 'items'
-                ? 'bg-[#1c222d] text-white'
-                : 'text-[#8b96a6] hover:text-white'
+            className={`relative inline-flex items-center gap-2 pb-2.5 text-xs font-medium transition sm:text-sm ${
+              activeTab === 'items' ? 'text-[#141518]' : 'text-[#72767f] hover:text-[#2f3238]'
             }`}
           >
-            <Layers className="h-3.5 w-3.5" />
+            <Layers className="h-4 w-4" />
             Projetos & Serviços ({data.portfolioItems.length})
+            {activeTab === 'items' && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#1f2024]" />
+            )}
           </button>
         </div>
       </div>
 
       {/* TAB 1: PROFILE & HERO */}
       {activeTab === 'profile' && (
-        <form onSubmit={handleSaveProfile} className="space-y-6">
-          <div className="grid gap-6 lg:grid-cols-2">
+        <form onSubmit={handleSaveProfile} className="space-y-5">
+          <div className="grid gap-5 lg:grid-cols-2">
             {/* Identity */}
-            <div className="space-y-4 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-              <h2 className="text-sm font-semibold text-white">Identidade & Cabeçalho (Hero)</h2>
+            <div className="studio-card space-y-4 rounded-[22px] p-5">
+              <h2 className="text-sm font-semibold text-[#18191c]">Identidade & Cabeçalho (Hero)</h2>
 
               <div className="grid gap-3 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-xs text-[#9aa5b4]">Nome / Marca *</label>
+                  <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                    Nome / Marca *
+                  </label>
                   <input
                     type="text"
                     required
                     value={profileForm.name}
                     onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs text-[#9aa5b4]">Slug do Link Público</label>
-                  <div className="flex items-center overflow-hidden rounded-lg border border-[#252d3a] bg-[#0b0e14]">
-                    <span className="border-r border-[#252d3a] bg-[#161b22] px-2.5 py-2 font-mono text-xs text-[#7d8898]">
+                  <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                    Slug do Link Público
+                  </label>
+                  <div className="studio-input flex items-center overflow-hidden rounded-xl">
+                    <span className="border-r border-black/10 bg-black/[0.04] px-2.5 py-2 font-mono text-xs text-[#666a73]">
                       /p/
                     </span>
                     <input
                       type="text"
                       value={profileForm.slug}
                       onChange={(e) => setProfileForm({ ...profileForm, slug: e.target.value })}
-                      className="w-full bg-transparent px-2.5 py-2 font-mono text-xs text-white outline-none"
+                      className="w-full bg-transparent px-2.5 py-2 font-mono text-xs text-[#18191c] outline-none"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="mb-1 block text-xs text-[#9aa5b4]">Título / Especialidade</label>
+                <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                  Título / Especialidade
+                </label>
                 <input
                   type="text"
                   value={profileForm.title}
                   onChange={(e) => setProfileForm({ ...profileForm, title: e.target.value })}
-                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-xs text-[#9aa5b4]">Bio Curta</label>
+                <label className="mb-1 block text-xs font-medium text-[#52565f]">Bio Curta</label>
                 <textarea
                   rows={4}
                   value={profileForm.bio}
                   onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
-                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-xs text-[#9aa5b4]">Localização / Atendimento</label>
+                <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                  Localização / Atendimento
+                </label>
                 <input
                   type="text"
                   value={profileForm.location}
                   onChange={(e) => setProfileForm({ ...profileForm, location: e.target.value })}
-                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
                 />
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-xs text-[#9aa5b4]">Botão Principal</label>
+                  <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                    Botão Principal
+                  </label>
                   <input
                     type="text"
                     value={profileForm.primaryCtaLabel}
                     onChange={(e) =>
                       setProfileForm({ ...profileForm, primaryCtaLabel: e.target.value })
                     }
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs text-[#9aa5b4]">Botão Secundário</label>
+                  <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                    Botão Secundário
+                  </label>
                   <input
                     type="text"
                     value={profileForm.secondaryCtaLabel}
                     onChange={(e) =>
                       setProfileForm({ ...profileForm, secondaryCtaLabel: e.target.value })
                     }
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
                   />
                 </div>
               </div>
             </div>
 
             {/* Images & Contact */}
-            <div className="space-y-4 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-              <h2 className="text-sm font-semibold text-white">Imagens & Informações de Contato</h2>
+            <div className="studio-card space-y-4 rounded-[22px] p-5">
+              <h2 className="text-sm font-semibold text-[#18191c]">
+                Imagens & Informações de Contato
+              </h2>
 
               <ImageInput
                 label="Avatar / Foto de Perfil"
                 value={profileForm.avatarUrl}
                 onChange={(avatarUrl) => setProfileForm({ ...profileForm, avatarUrl })}
                 previewAspect="square"
+                surface="studio"
               />
 
               <ImageInput
@@ -340,59 +362,62 @@ export const AdminPortfolioPage: React.FC = () => {
                 value={profileForm.bannerUrl}
                 onChange={(bannerUrl) => setProfileForm({ ...profileForm, bannerUrl })}
                 previewAspect="banner"
+                surface="studio"
               />
 
               <div className="grid gap-3 sm:grid-cols-3">
                 <div>
-                  <label className="mb-1 block text-xs text-[#9aa5b4]">E-mail</label>
+                  <label className="mb-1 block text-xs font-medium text-[#52565f]">E-mail</label>
                   <input
                     type="email"
                     value={profileForm.email}
                     onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs text-[#9aa5b4]">WhatsApp</label>
+                  <label className="mb-1 block text-xs font-medium text-[#52565f]">WhatsApp</label>
                   <input
                     type="text"
                     value={profileForm.whatsapp}
                     onChange={(e) => setProfileForm({ ...profileForm, whatsapp: e.target.value })}
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs text-[#9aa5b4]">Telefone</label>
+                  <label className="mb-1 block text-xs font-medium text-[#52565f]">Telefone</label>
                   <input
                     type="text"
                     value={profileForm.phone}
                     onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="mb-1 block text-xs text-[#9aa5b4]">Texto do Rodapé</label>
+                <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                  Texto do Rodapé
+                </label>
                 <input
                   type="text"
                   value={profileForm.footerText}
                   onChange={(e) => setProfileForm({ ...profileForm, footerText: e.target.value })}
-                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Social Links & Section Visibility/Order */}
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="space-y-4 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
+          <div className="grid gap-5 lg:grid-cols-2">
+            <div className="studio-card space-y-4 rounded-[22px] p-5">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-white">Links Sociais</h2>
+                <h2 className="text-sm font-semibold text-[#18191c]">Links Sociais</h2>
                 <button
                   type="button"
                   onClick={addSocialLink}
-                  className="inline-flex items-center gap-1 rounded-lg border border-[#252d3a] bg-[#161b22] px-2.5 py-1.5 text-xs font-medium text-[#d5dce6] hover:bg-[#1c222d]"
+                  className="studio-pill-btn inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   Adicionar Link
@@ -403,14 +428,14 @@ export const AdminPortfolioPage: React.FC = () => {
                 {profileForm.socialLinks.map((soc) => (
                   <div
                     key={soc.id}
-                    className="grid gap-2 rounded-xl border border-[#222a36] bg-[#161b22] p-3 sm:grid-cols-12 sm:items-center"
+                    className="studio-subcard grid gap-2 rounded-xl p-3 sm:grid-cols-12 sm:items-center"
                   >
                     <select
                       value={soc.platform}
                       onChange={(e) =>
                         updateSocial(soc.id, { platform: e.target.value as SocialPlatform })
                       }
-                      className="rounded-lg border border-[#252d3a] bg-[#0b0e14] px-2 py-1.5 text-xs text-white sm:col-span-3"
+                      className="studio-input rounded-lg px-2 py-1.5 text-xs sm:col-span-3"
                     >
                       <option value="instagram">Instagram</option>
                       <option value="linkedin">LinkedIn</option>
@@ -424,32 +449,32 @@ export const AdminPortfolioPage: React.FC = () => {
                       value={soc.label}
                       onChange={(e) => updateSocial(soc.id, { label: e.target.value })}
                       placeholder="Rótulo"
-                      className="rounded-lg border border-[#252d3a] bg-[#0b0e14] px-2.5 py-1.5 text-xs text-white sm:col-span-3"
+                      className="studio-input rounded-lg px-2.5 py-1.5 text-xs sm:col-span-3"
                     />
                     <input
                       type="url"
                       value={soc.url}
                       onChange={(e) => updateSocial(soc.id, { url: e.target.value })}
                       placeholder="https://..."
-                      className="rounded-lg border border-[#252d3a] bg-[#0b0e14] px-2.5 py-1.5 text-xs text-white sm:col-span-4"
+                      className="studio-input rounded-lg px-2.5 py-1.5 text-xs sm:col-span-4"
                     />
                     <div className="flex items-center justify-end gap-1 sm:col-span-2">
                       <button
                         type="button"
                         onClick={() => updateSocial(soc.id, { visible: !soc.visible })}
-                        className="rounded-lg p-1.5 text-[#9aa5b4] hover:bg-[#0f131a] hover:text-white"
+                        className="rounded-lg p-1.5 text-[#52565f] hover:bg-white/60"
                         title={soc.visible ? 'Ocultar link' : 'Exibir link'}
                       >
                         {soc.visible ? (
-                          <Eye className="h-3.5 w-3.5 text-emerald-400" />
+                          <Eye className="h-3.5 w-3.5 text-emerald-700" />
                         ) : (
-                          <EyeOff className="h-3.5 w-3.5 text-[#5a6575]" />
+                          <EyeOff className="h-3.5 w-3.5 text-[#8d929b]" />
                         )}
                       </button>
                       <button
                         type="button"
                         onClick={() => removeSocial(soc.id)}
-                        className="rounded-lg p-1.5 text-[#9aa5b4] hover:bg-[#0f131a] hover:text-[#ef5350]"
+                        className="rounded-lg p-1.5 text-[#52565f] hover:bg-white/60 hover:text-rose-600"
                         title="Remover link"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -460,24 +485,26 @@ export const AdminPortfolioPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-4 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-              <h2 className="text-sm font-semibold text-white">Seções Públicas & Ordem</h2>
+            <div className="studio-card space-y-4 rounded-[22px] p-5">
+              <h2 className="text-sm font-semibold text-[#18191c]">Seções Públicas & Ordem</h2>
 
               <div className="space-y-2.5">
-                <label className="flex cursor-pointer items-center justify-between rounded-xl border border-[#222a36] bg-[#161b22] px-3.5 py-2.5 text-xs">
-                  <span className="text-[#d5dce6]">Exibir Calendário de Agendamentos no público</span>
+                <label className="studio-subcard flex cursor-pointer items-center justify-between rounded-xl px-3.5 py-2.5 text-xs">
+                  <span className="font-medium text-[#2c2f36]">
+                    Exibir Calendário de Agendamentos no público
+                  </span>
                   <input
                     type="checkbox"
                     checked={profileForm.showCalendarSection}
                     onChange={(e) =>
                       setProfileForm({ ...profileForm, showCalendarSection: e.target.checked })
                     }
-                    className="h-4 w-4 accent-[#ef5350]"
+                    className="h-4 w-4 accent-[#1f2024]"
                   />
                 </label>
 
-                <label className="flex cursor-pointer items-center justify-between rounded-xl border border-[#222a36] bg-[#161b22] px-3.5 py-2.5 text-xs">
-                  <span className="text-[#d5dce6]">
+                <label className="studio-subcard flex cursor-pointer items-center justify-between rounded-xl px-3.5 py-2.5 text-xs">
+                  <span className="font-medium text-[#2c2f36]">
                     Permitir visitante solicitar horário personalizado
                   </span>
                   <input
@@ -489,32 +516,34 @@ export const AdminPortfolioPage: React.FC = () => {
                         allowPublicCustomBooking: e.target.checked,
                       })
                     }
-                    className="h-4 w-4 accent-[#ef5350]"
+                    className="h-4 w-4 accent-[#1f2024]"
                   />
                 </label>
 
-                <label className="flex cursor-pointer items-center justify-between rounded-xl border border-[#222a36] bg-[#161b22] px-3.5 py-2.5 text-xs">
-                  <span className="text-[#d5dce6]">Exibir Inventário de Produtos no público</span>
+                <label className="studio-subcard flex cursor-pointer items-center justify-between rounded-xl px-3.5 py-2.5 text-xs">
+                  <span className="font-medium text-[#2c2f36]">
+                    Exibir Inventário de Produtos no público
+                  </span>
                   <input
                     type="checkbox"
                     checked={profileForm.showInventorySection}
                     onChange={(e) =>
                       setProfileForm({ ...profileForm, showInventorySection: e.target.checked })
                     }
-                    className="h-4 w-4 accent-[#ef5350]"
+                    className="h-4 w-4 accent-[#1f2024]"
                   />
                 </label>
               </div>
 
               <div className="pt-2">
-                <p className="mb-2 text-xs font-medium text-[#9aa5b4]">Ordem de exibição</p>
+                <p className="mb-2 text-xs font-medium text-[#52565f]">Ordem de exibição</p>
                 <div className="space-y-2">
                   {profileForm.sectionOrder.map((sec, idx) => (
                     <div
                       key={sec}
-                      className="flex items-center justify-between rounded-xl border border-[#222a36] bg-[#161b22] px-3.5 py-2.5"
+                      className="studio-subcard flex items-center justify-between rounded-xl px-3.5 py-2.5"
                     >
-                      <span className="text-xs font-medium text-[#e6edf3]">
+                      <span className="text-xs font-medium text-[#18191c]">
                         {idx + 1}. {SECTION_LABELS[sec]}
                       </span>
                       <div className="flex items-center gap-1">
@@ -522,7 +551,7 @@ export const AdminPortfolioPage: React.FC = () => {
                           type="button"
                           disabled={idx === 0}
                           onClick={() => moveSection(idx, 'up')}
-                          className="rounded-md border border-[#252d3a] p-1 text-[#9aa5b4] hover:text-white disabled:opacity-30"
+                          className="studio-pill-btn rounded-lg p-1 disabled:opacity-30"
                         >
                           <ArrowUp className="h-3.5 w-3.5" />
                         </button>
@@ -530,7 +559,7 @@ export const AdminPortfolioPage: React.FC = () => {
                           type="button"
                           disabled={idx === profileForm.sectionOrder.length - 1}
                           onClick={() => moveSection(idx, 'down')}
-                          className="rounded-md border border-[#252d3a] p-1 text-[#9aa5b4] hover:text-white disabled:opacity-30"
+                          className="studio-pill-btn rounded-lg p-1 disabled:opacity-30"
                         >
                           <ArrowDown className="h-3.5 w-3.5" />
                         </button>
@@ -543,14 +572,16 @@ export const AdminPortfolioPage: React.FC = () => {
           </div>
 
           {/* Section Headers & Texts Editor */}
-          <div className="space-y-4 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5">
-            <div className="flex items-center gap-2">
-              <Type className="h-4 w-4 text-[#ef5350]" />
+          <div className="studio-card space-y-4 rounded-[22px] p-5">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#1f2024] text-white">
+                <Type className="h-4 w-4" />
+              </span>
               <div>
-                <h2 className="text-sm font-semibold text-white">
+                <h2 className="text-sm font-semibold text-[#18191c]">
                   Títulos e Descrições das Seções Públicas
                 </h2>
-                <p className="text-xs text-[#8b96a6]">
+                <p className="text-xs text-[#686c75]">
                   Personalize os selos, títulos e textos introdutórios exibidos em cada bloco do
                   portfólio.
                 </p>
@@ -559,11 +590,11 @@ export const AdminPortfolioPage: React.FC = () => {
 
             <div className="grid gap-4 lg:grid-cols-2">
               {/* Portfólio */}
-              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
-                <p className="text-xs font-semibold text-white">Seção de Portfólio</p>
+              <div className="studio-subcard space-y-2.5 rounded-2xl p-4">
+                <p className="text-xs font-semibold text-[#18191c]">Seção de Portfólio</p>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">
                       Selo superior (ex: PORTFÓLIO SELECIONADO)
                     </label>
                     <input
@@ -575,11 +606,11 @@ export const AdminPortfolioPage: React.FC = () => {
                           portfolioSectionEyebrow: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">Título da seção</label>
                     <input
                       type="text"
                       value={profileForm.portfolioSectionTitle}
@@ -589,12 +620,12 @@ export const AdminPortfolioPage: React.FC = () => {
                           portfolioSectionTitle: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <label className="mb-1 block text-[11px] text-[#5c6068]">Descrição</label>
                   <textarea
                     rows={2}
                     value={profileForm.portfolioSectionDescription}
@@ -604,17 +635,17 @@ export const AdminPortfolioPage: React.FC = () => {
                         portfolioSectionDescription: e.target.value,
                       })
                     }
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                   />
                 </div>
               </div>
 
               {/* Agenda */}
-              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
-                <p className="text-xs font-semibold text-white">Seção de Agenda</p>
+              <div className="studio-subcard space-y-2.5 rounded-2xl p-4">
+                <p className="text-xs font-semibold text-[#18191c]">Seção de Agenda</p>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Selo superior</label>
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">Selo superior</label>
                     <input
                       type="text"
                       value={profileForm.calendarSectionEyebrow}
@@ -624,11 +655,11 @@ export const AdminPortfolioPage: React.FC = () => {
                           calendarSectionEyebrow: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">Título da seção</label>
                     <input
                       type="text"
                       value={profileForm.calendarSectionTitle}
@@ -638,12 +669,12 @@ export const AdminPortfolioPage: React.FC = () => {
                           calendarSectionTitle: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <label className="mb-1 block text-[11px] text-[#5c6068]">Descrição</label>
                   <textarea
                     rows={2}
                     value={profileForm.calendarSectionDescription}
@@ -653,17 +684,17 @@ export const AdminPortfolioPage: React.FC = () => {
                         calendarSectionDescription: e.target.value,
                       })
                     }
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                   />
                 </div>
               </div>
 
               {/* Inventário */}
-              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
-                <p className="text-xs font-semibold text-white">Seção de Produtos / Inventário</p>
+              <div className="studio-subcard space-y-2.5 rounded-2xl p-4">
+                <p className="text-xs font-semibold text-[#18191c]">Seção de Produtos / Inventário</p>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Selo superior</label>
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">Selo superior</label>
                     <input
                       type="text"
                       value={profileForm.inventorySectionEyebrow}
@@ -673,11 +704,11 @@ export const AdminPortfolioPage: React.FC = () => {
                           inventorySectionEyebrow: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">Título da seção</label>
                     <input
                       type="text"
                       value={profileForm.inventorySectionTitle}
@@ -687,12 +718,12 @@ export const AdminPortfolioPage: React.FC = () => {
                           inventorySectionTitle: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <label className="mb-1 block text-[11px] text-[#5c6068]">Descrição</label>
                   <textarea
                     rows={2}
                     value={profileForm.inventorySectionDescription}
@@ -702,17 +733,17 @@ export const AdminPortfolioPage: React.FC = () => {
                         inventorySectionDescription: e.target.value,
                       })
                     }
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                   />
                 </div>
               </div>
 
               {/* Contato */}
-              <div className="space-y-2.5 rounded-xl border border-[#222a36] bg-[#161b22] p-4">
-                <p className="text-xs font-semibold text-white">Seção de Contato</p>
+              <div className="studio-subcard space-y-2.5 rounded-2xl p-4">
+                <p className="text-xs font-semibold text-[#18191c]">Seção de Contato</p>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Selo superior</label>
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">Selo superior</label>
                     <input
                       type="text"
                       value={profileForm.contactSectionEyebrow}
@@ -722,11 +753,11 @@ export const AdminPortfolioPage: React.FC = () => {
                           contactSectionEyebrow: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-[11px] text-[#8b96a6]">Título da seção</label>
+                    <label className="mb-1 block text-[11px] text-[#5c6068]">Título da seção</label>
                     <input
                       type="text"
                       value={profileForm.contactSectionTitle}
@@ -736,12 +767,12 @@ export const AdminPortfolioPage: React.FC = () => {
                           contactSectionTitle: e.target.value,
                         })
                       }
-                      className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                      className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[11px] text-[#8b96a6]">Descrição</label>
+                  <label className="mb-1 block text-[11px] text-[#5c6068]">Descrição</label>
                   <textarea
                     rows={2}
                     value={profileForm.contactSectionDescription}
@@ -751,7 +782,7 @@ export const AdminPortfolioPage: React.FC = () => {
                         contactSectionDescription: e.target.value,
                       })
                     }
-                    className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-1.5 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                    className="studio-input w-full rounded-lg px-3 py-1.5 text-xs outline-none"
                   />
                 </div>
               </div>
@@ -761,7 +792,7 @@ export const AdminPortfolioPage: React.FC = () => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#ef5350] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#ef5350]/20 transition hover:bg-[#f26461]"
+              className="studio-dark-btn inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-semibold transition sm:text-sm"
             >
               <Save className="h-4 w-4" />
               Salvar Alterações do Perfil
@@ -776,32 +807,36 @@ export const AdminPortfolioPage: React.FC = () => {
           {/* Quick Editor for the Portfolio Section Heading */}
           <form
             onSubmit={handleSavePortfolioSectionHeader}
-            className="space-y-3 rounded-2xl border border-[#252d3a] bg-[#0f131a] p-5"
+            className="studio-card space-y-3 rounded-[22px] p-5"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <Type className="h-4 w-4 text-[#ef5350]" />
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#1f2024] text-white">
+                  <Type className="h-4 w-4" />
+                </span>
                 <div>
-                  <h2 className="text-sm font-semibold text-white">
+                  <h2 className="text-sm font-semibold text-[#18191c]">
                     Cabeçalho da Seção no Portfólio Público
                   </h2>
-                  <p className="text-xs text-[#8b96a6]">
+                  <p className="text-xs text-[#686c75]">
                     Edite o selo superior, título e descrição exibidos acima dos seus cards.
                   </p>
                 </div>
               </div>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[#2d3646] bg-[#161b22] px-3 py-1.5 text-xs font-semibold text-white transition hover:border-[#ef5350]/60 hover:bg-[#1c222d]"
+                className="studio-dark-btn inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-medium"
               >
-                <Save className="h-3.5 w-3.5 text-[#ef5350]" />
+                <Save className="h-3.5 w-3.5" />
                 Salvar Cabeçalho
               </button>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-xs text-[#9aa5b4]">Selo Superior</label>
+                <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                  Selo Superior
+                </label>
                 <input
                   type="text"
                   value={profileForm.portfolioSectionEyebrow}
@@ -812,11 +847,13 @@ export const AdminPortfolioPage: React.FC = () => {
                     })
                   }
                   placeholder="Ex: PORTFÓLIO SELECIONADO"
-                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs text-[#9aa5b4]">Título Principal</label>
+                <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                  Título Principal
+                </label>
                 <input
                   type="text"
                   value={profileForm.portfolioSectionTitle}
@@ -827,13 +864,15 @@ export const AdminPortfolioPage: React.FC = () => {
                     })
                   }
                   placeholder="Ex: Projetos, Serviços & Experiências"
-                  className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                  className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="mb-1 block text-xs text-[#9aa5b4]">Subtítulo / Descrição</label>
+              <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                Subtítulo / Descrição
+              </label>
               <textarea
                 rows={2}
                 value={profileForm.portfolioSectionDescription}
@@ -844,20 +883,20 @@ export const AdminPortfolioPage: React.FC = () => {
                   })
                 }
                 placeholder="Breve descrição exibida abaixo do título da seção..."
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-xs text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl px-3 py-2 text-xs outline-none"
               />
             </div>
           </form>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs text-[#8b96a6]">
+            <p className="text-xs text-[#686c75]">
               Crie, edite, reordene, oculte ou exclua projetos, serviços e experiências exibidos no
               portfólio público.
             </p>
             <button
               type="button"
               onClick={openCreateItem}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#ef5350] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#f26461]"
+              className="studio-dark-btn inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
             >
               <Plus className="h-4 w-4" />
               Novo Item de Portfólio
@@ -865,15 +904,15 @@ export const AdminPortfolioPage: React.FC = () => {
           </div>
 
           {sortedItems.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-[#252d3a] bg-[#0f131a] py-12 text-center">
-              <Layers className="mx-auto h-9 w-9 text-[#5a6575]" />
-              <p className="mt-2 text-sm font-medium text-[#d5dce6]">
+            <div className="studio-card rounded-[22px] py-12 text-center">
+              <Layers className="mx-auto h-9 w-9 text-[#72767f]" />
+              <p className="mt-2 text-sm font-medium text-[#2c2f36]">
                 Nenhum item de portfólio cadastrado.
               </p>
               <button
                 type="button"
                 onClick={openCreateItem}
-                className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-[#ef5350] px-3.5 py-2 text-xs font-semibold text-white"
+                className="studio-dark-btn mt-3 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
               >
                 <Plus className="h-3.5 w-3.5" />
                 Criar primeiro item
@@ -884,13 +923,11 @@ export const AdminPortfolioPage: React.FC = () => {
               {sortedItems.map((item, idx) => (
                 <div
                   key={item.id}
-                  className={`flex flex-col gap-4 rounded-2xl border p-4 transition sm:flex-row sm:items-center ${
-                    item.visible
-                      ? 'border-[#252d3a] bg-[#0f131a]'
-                      : 'border-[#222a36] bg-[#0f131a]/50 opacity-70'
+                  className={`studio-card flex flex-col gap-4 rounded-[20px] p-4 transition sm:flex-row sm:items-center ${
+                    item.visible ? '' : 'opacity-65'
                   }`}
                 >
-                  <div className="h-20 w-full shrink-0 overflow-hidden rounded-xl border border-[#222a36] bg-[#161b22] sm:w-28">
+                  <div className="h-20 w-full shrink-0 overflow-hidden rounded-xl border border-black/10 bg-white/40 sm:w-28">
                     {item.imageUrl ? (
                       <img
                         src={item.imageUrl}
@@ -898,7 +935,7 @@ export const AdminPortfolioPage: React.FC = () => {
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center text-[#5a6575]">
+                      <div className="flex h-full w-full items-center justify-center text-[#72767f]">
                         <Layers className="h-6 w-6" />
                       </div>
                     )}
@@ -906,30 +943,30 @@ export const AdminPortfolioPage: React.FC = () => {
 
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-md border border-[#252d3a] bg-[#161b22] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#c8d1dc]">
+                      <span className="rounded-full bg-black/[0.07] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#3c3f46]">
                         {item.kind}
                       </span>
                       {item.featured && (
-                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold text-amber-300">
-                          <Star className="h-2.5 w-2.5 fill-amber-300" />
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-600/15 px-2.5 py-0.5 text-[10px] font-semibold text-amber-900">
+                          <Star className="h-2.5 w-2.5 fill-amber-700" />
                           Destaque
                         </span>
                       )}
                       {!item.visible && (
-                        <span className="rounded-md bg-slate-500/20 px-2 py-0.5 text-[10px] font-semibold text-slate-300">
+                        <span className="rounded-full bg-black/10 px-2.5 py-0.5 text-[10px] font-semibold text-[#555962]">
                           Oculto
                         </span>
                       )}
                     </div>
-                    <h3 className="mt-1.5 truncate text-sm font-semibold text-white">
+                    <h3 className="mt-1.5 truncate text-sm font-semibold text-[#18191c]">
                       {item.title}
                     </h3>
-                    <p className="mt-0.5 line-clamp-1 text-xs text-[#8b96a6]">{item.description}</p>
+                    <p className="mt-0.5 line-clamp-1 text-xs text-[#666a73]">{item.description}</p>
                     <div className="mt-2 flex flex-wrap gap-1">
                       {item.tags.map((t) => (
                         <span
                           key={t}
-                          className="rounded bg-[#161b22] px-1.5 py-0.5 text-[10px] text-[#9aa5b4]"
+                          className="rounded-md bg-white/55 px-1.5 py-0.5 text-[10px] font-medium text-[#4a4e57]"
                         >
                           {t}
                         </span>
@@ -943,7 +980,7 @@ export const AdminPortfolioPage: React.FC = () => {
                       type="button"
                       disabled={idx === 0}
                       onClick={() => movePortfolioItem(item.id, 'up')}
-                      className="rounded-lg border border-[#252d3a] bg-[#161b22] p-2 text-[#9aa5b4] hover:text-white disabled:opacity-30"
+                      className="studio-pill-btn rounded-xl p-2 disabled:opacity-30"
                       title="Mover para cima"
                     >
                       <ArrowUp className="h-3.5 w-3.5" />
@@ -952,7 +989,7 @@ export const AdminPortfolioPage: React.FC = () => {
                       type="button"
                       disabled={idx === sortedItems.length - 1}
                       onClick={() => movePortfolioItem(item.id, 'down')}
-                      className="rounded-lg border border-[#252d3a] bg-[#161b22] p-2 text-[#9aa5b4] hover:text-white disabled:opacity-30"
+                      className="studio-pill-btn rounded-xl p-2 disabled:opacity-30"
                       title="Mover para baixo"
                     >
                       <ArrowDown className="h-3.5 w-3.5" />
@@ -966,19 +1003,19 @@ export const AdminPortfolioPage: React.FC = () => {
                           title: item.visible ? 'Item ocultado' : 'Item publicado',
                         });
                       }}
-                      className="rounded-lg border border-[#252d3a] bg-[#161b22] p-2 text-[#9aa5b4] hover:text-white"
+                      className="studio-pill-btn rounded-xl p-2"
                       title={item.visible ? 'Ocultar do público' : 'Exibir no público'}
                     >
                       {item.visible ? (
-                        <Eye className="h-3.5 w-3.5 text-emerald-400" />
+                        <Eye className="h-3.5 w-3.5 text-emerald-700" />
                       ) : (
-                        <EyeOff className="h-3.5 w-3.5" />
+                        <EyeOff className="h-3.5 w-3.5 text-[#72767f]" />
                       )}
                     </button>
                     <button
                       type="button"
                       onClick={() => openEditItem(item)}
-                      className="rounded-lg border border-[#252d3a] bg-[#161b22] p-2 text-[#9aa5b4] hover:text-white"
+                      className="studio-pill-btn rounded-xl p-2"
                       title="Editar"
                     >
                       <Pencil className="h-3.5 w-3.5" />
@@ -989,7 +1026,7 @@ export const AdminPortfolioPage: React.FC = () => {
                         deletePortfolioItem(item.id);
                         notify({ type: 'info', title: 'Item excluído do portfólio' });
                       }}
-                      className="rounded-lg border border-[#252d3a] bg-[#161b22] p-2 text-[#9aa5b4] hover:border-[#ef5350]/50 hover:text-[#ef5350]"
+                      className="studio-pill-btn rounded-xl p-2 hover:text-rose-600"
                       title="Excluir"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -1009,26 +1046,27 @@ export const AdminPortfolioPage: React.FC = () => {
         title={editingItem ? 'Editar Item do Portfólio' : 'Novo Item do Portfólio'}
         subtitle="Preencha os detalhes do projeto, serviço ou experiência."
         maxWidthClass="max-w-2xl"
+        surface="studio"
       >
         <form onSubmit={handleSaveItem} className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">
-              <label className="mb-1 block text-xs text-[#9aa5b4]">Título *</label>
+              <label className="mb-1 block text-xs font-medium text-[#52565f]">Título *</label>
               <input
                 type="text"
                 required
                 value={itemTitle}
                 onChange={(e) => setItemTitle(e.target.value)}
                 placeholder="Ex: Redesign E-commerce Norte Café"
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-[#9aa5b4]">Tipo</label>
+              <label className="mb-1 block text-xs font-medium text-[#52565f]">Tipo</label>
               <select
                 value={itemKind}
                 onChange={(e) => setItemKind(e.target.value as PortfolioItemKind)}
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
               >
                 <option value="projeto">Projeto</option>
                 <option value="servico">Serviço</option>
@@ -1039,42 +1077,44 @@ export const AdminPortfolioPage: React.FC = () => {
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-xs text-[#9aa5b4]">Subtítulo / Segmento</label>
+              <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                Subtítulo / Segmento
+              </label>
               <input
                 type="text"
                 value={itemSubtitle}
                 onChange={(e) => setItemSubtitle(e.target.value)}
                 placeholder="Ex: Branding • Produto Digital"
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-[#9aa5b4]">Período / Ano</label>
+              <label className="mb-1 block text-xs font-medium text-[#52565f]">Período / Ano</label>
               <input
                 type="text"
                 value={itemPeriod}
                 onChange={(e) => setItemPeriod(e.target.value)}
                 placeholder="Ex: 2026 ou 2023 – Atual"
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs text-[#9aa5b4]">Descrição *</label>
+            <label className="mb-1 block text-xs font-medium text-[#52565f]">Descrição *</label>
             <textarea
               rows={3}
               required
               value={itemDesc}
               onChange={(e) => setItemDesc(e.target.value)}
               placeholder="Descreva o escopo, entregas e resultados..."
-              className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+              className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
             />
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-xs text-[#9aa5b4]">
+              <label className="mb-1 block text-xs font-medium text-[#52565f]">
                 Tags / Tecnologias (separadas por vírgula)
               </label>
               <input
@@ -1082,31 +1122,35 @@ export const AdminPortfolioPage: React.FC = () => {
                 value={itemTagsText}
                 onChange={(e) => setItemTagsText(e.target.value)}
                 placeholder="React, Figma, Branding, UX"
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-[#9aa5b4]">Destaque / Resultado</label>
+              <label className="mb-1 block text-xs font-medium text-[#52565f]">
+                Destaque / Resultado
+              </label>
               <input
                 type="text"
                 value={itemHighlight}
                 onChange={(e) => setItemHighlight(e.target.value)}
                 placeholder="Ex: +40% conversão"
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] px-3 py-2 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl px-3 py-2 text-sm outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs text-[#9aa5b4]">Link Externo (opcional)</label>
+            <label className="mb-1 block text-xs font-medium text-[#52565f]">
+              Link Externo (opcional)
+            </label>
             <div className="relative">
-              <LinkIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6b7686]" />
+              <LinkIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d717a]" />
               <input
                 type="url"
                 value={itemUrl}
                 onChange={(e) => setItemUrl(e.target.value)}
                 placeholder="https://..."
-                className="w-full rounded-lg border border-[#252d3a] bg-[#0b0e14] py-2 pl-9 pr-3 text-sm text-white outline-none focus:border-[#ef5350]/70"
+                className="studio-input w-full rounded-xl py-2 pl-9 pr-3 text-sm outline-none"
               />
             </div>
           </div>
@@ -1116,40 +1160,41 @@ export const AdminPortfolioPage: React.FC = () => {
             value={itemImage}
             onChange={setItemImage}
             previewAspect="video"
+            surface="studio"
           />
 
-          <div className="flex flex-wrap items-center gap-5 rounded-xl border border-[#222a36] bg-[#161b22] px-4 py-3 text-xs">
-            <label className="flex cursor-pointer items-center gap-2 text-[#d5dce6]">
+          <div className="studio-subcard flex flex-wrap items-center gap-5 rounded-xl px-4 py-3 text-xs">
+            <label className="flex cursor-pointer items-center gap-2 font-medium text-[#2c2f36]">
               <input
                 type="checkbox"
                 checked={itemVisible}
                 onChange={(e) => setItemVisible(e.target.checked)}
-                className="h-4 w-4 accent-[#ef5350]"
+                className="h-4 w-4 accent-[#1f2024]"
               />
               Visível no portfólio público
             </label>
-            <label className="flex cursor-pointer items-center gap-2 text-[#d5dce6]">
+            <label className="flex cursor-pointer items-center gap-2 font-medium text-[#2c2f36]">
               <input
                 type="checkbox"
                 checked={itemFeatured}
                 onChange={(e) => setItemFeatured(e.target.checked)}
-                className="h-4 w-4 accent-[#ef5350]"
+                className="h-4 w-4 accent-[#1f2024]"
               />
               Marcar como destaque
             </label>
           </div>
 
-          <div className="flex justify-end gap-2 border-t border-[#252d3a] pt-4">
+          <div className="flex justify-end gap-2 border-t border-black/10 pt-4">
             <button
               type="button"
               onClick={() => setItemModalOpen(false)}
-              className="rounded-lg border border-[#252d3a] bg-[#161b22] px-4 py-2 text-xs font-medium text-[#c8d1dc]"
+              className="studio-pill-btn rounded-full px-4 py-2 text-xs font-medium"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="rounded-lg bg-[#ef5350] px-4 py-2 text-xs font-semibold text-white hover:bg-[#f26461]"
+              className="studio-dark-btn rounded-full px-5 py-2 text-xs font-semibold"
             >
               {editingItem ? 'Salvar Item' : 'Adicionar Item'}
             </button>
