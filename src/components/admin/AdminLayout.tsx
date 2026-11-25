@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
   SlidersHorizontal,
@@ -30,6 +30,10 @@ export const AdminLayout: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [treeQuery, setTreeQuery] = useState('');
+
+  useEffect(() => {
+    document.title = `Painel Admin — ${data.profile.name}`;
+  }, [data.profile.name]);
 
   const availableSlots = data.events.filter((e) => e.status === 'Disponível').length;
   const reservedEvents = data.events.filter((e) => e.status === 'Reservado').length;

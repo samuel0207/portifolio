@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import {
   MapPin,
   Mail,
@@ -68,12 +68,21 @@ export const PublicPortfolioPage: React.FC = () => {
 
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
+  useEffect(() => {
+    document.title = profile.brandTagline
+      ? `${profile.name} — ${profile.brandTagline}`
+      : profile.name;
+  }, [profile.name, profile.brandTagline]);
+
   const availableSlotsCount = useMemo(
     () => events.filter((e) => e.status === 'Disponível').length,
     [events]
   );
 
-  const slugMismatch = Boolean(slug && slug !== profile.slug);
+  // If visitor accesses an outdated /p/:slug link, cleanly redirect to the active slug
+  if (slug && profile.slug && slug !== profile.slug) {
+    return <Navigate to={`/p/${profile.slug}`} replace />;
+  }
 
   const renderSection = (key: PublicSectionKey) => {
     if (key === 'projects') {
@@ -197,13 +206,6 @@ export const PublicPortfolioPage: React.FC = () => {
   return (
     <div id="inicio" className="public-editorial-page min-h-screen">
       <PublicNavbar />
-
-      {slugMismatch && (
-        <div className="border-b border-[#d8b8a4] bg-[#f4e6db] px-4 py-2 text-center text-xs text-[#7c452d]">
-          Link personalizado <code>/p/{slug}</code> exibindo o portfólio ativo{' '}
-          <span className="font-semibold">/p/{profile.slug}</span>.
-        </div>
-      )}
 
       {/* ====================================================================
           BLOCK 1: SPLIT LUXURY EDITORIAL HERO
