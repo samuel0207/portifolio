@@ -258,18 +258,18 @@ export const InventorySection: React.FC<InventorySectionProps> = ({
         subtitle={
           selectedProduct ? `${selectedProduct.category} • SKU ${selectedProduct.sku}` : undefined
         }
-        maxWidthClass="max-w-2xl"
+        maxWidthClass="max-w-3xl"
         surface="editorial"
       >
         {selectedProduct && (
           <div className="space-y-5">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div className="overflow-hidden rounded-xl border border-[#e5d8ca] bg-[#efe5da]">
+            <div className="grid items-start gap-5 sm:grid-cols-2">
+              <div className="flex items-center justify-center overflow-hidden rounded-xl border border-[#e5d8ca] bg-[#efe5da]/75 p-2 sm:p-3">
                 {selectedProduct.imageUrl ? (
                   <img
                     src={selectedProduct.imageUrl}
                     alt={selectedProduct.name}
-                    className="h-56 w-full object-cover sm:h-full"
+                    className="max-h-[46dvh] w-auto max-w-full rounded-lg object-contain sm:max-h-[420px]"
                   />
                 ) : (
                   <div className="flex h-56 items-center justify-center text-[#b5a395]">

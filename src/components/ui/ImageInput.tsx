@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Image as ImageIcon, Upload, Link as LinkIcon, Trash2 } from 'lucide-react';
-import { readFileAsDataURL } from '../../utils/format';
+import { optimizeUploadedImage } from '../../utils/format';
 
 interface ImageInputProps {
   label: string;
@@ -31,12 +31,12 @@ export const ImageInput: React.FC<ImageInputProps> = ({
       setError('Selecione um arquivo de imagem válido (PNG, JPG, WebP).');
       return;
     }
-    if (file.size > 2.5 * 1024 * 1024) {
-      setError('Imagem muito grande. Utilize um arquivo de até 2,5 MB.');
+    if (file.size > 12 * 1024 * 1024) {
+      setError('Imagem muito grande. Utilize um arquivo de até 12 MB.');
       return;
     }
     try {
-      const dataUrl = await readFileAsDataURL(file);
+      const dataUrl = await optimizeUploadedImage(file, 1600, 0.86);
       onChange(dataUrl);
     } catch {
       setError('Não foi possível ler a imagem selecionada.');

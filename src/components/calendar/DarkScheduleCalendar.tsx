@@ -247,92 +247,99 @@ export const DarkScheduleCalendar: React.FC<DarkScheduleCalendarProps> = ({
         </div>
       </div>
 
-      {/* Weekday Header Row */}
-      <div className="grid grid-cols-7 border-b border-[#252d3a] bg-[#12171f]">
-        {WEEKDAYS.map((day, index) => (
-          <div
-            key={day}
-            className={`px-2 py-2.5 text-center text-[11px] font-semibold uppercase tracking-wider sm:px-3 sm:text-left ${
-              index === 0 || index === 6 ? 'text-[#7c8798]' : 'text-[#9aa5b4]'
-            }`}
-          >
-            {day}
+      {/* Scrollable Calendar Grid Wrapper for Small Mobile Screens */}
+      <div className="overflow-x-auto">
+        <div className="min-w-[540px]">
+          {/* Weekday Header Row */}
+          <div className="grid grid-cols-7 border-b border-[#252d3a] bg-[#12171f]">
+            {WEEKDAYS.map((day, index) => (
+              <div
+                key={day}
+                className={`px-2 py-2.5 text-center text-[11px] font-semibold uppercase tracking-wider sm:px-3 sm:text-left ${
+                  index === 0 || index === 6 ? 'text-[#7c8798]' : 'text-[#9aa5b4]'
+                }`}
+              >
+                {day}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Monthly 7-Column Grid */}
-      <div className="grid grid-cols-7 divide-x divide-y divide-[#222a36] border-b border-[#252d3a]">
-        {cells.map((cell) => {
-          const dayEvents = eventsByDate.get(cell.iso) ?? [];
-          const visibleChips = dayEvents.slice(0, 3);
-          const hiddenCount = dayEvents.length - visibleChips.length;
+          {/* Monthly 7-Column Grid */}
+          <div className="grid grid-cols-7 divide-x divide-y divide-[#222a36] border-b border-[#252d3a]">
+            {cells.map((cell) => {
+              const dayEvents = eventsByDate.get(cell.iso) ?? [];
+              const visibleChips = dayEvents.slice(0, 3);
+              const hiddenCount = dayEvents.length - visibleChips.length;
 
-          return (
-            <button
-              key={cell.iso}
-              type="button"
-              onClick={() => onSelectDay(cell.iso)}
-              className={`group relative flex min-h-[86px] flex-col p-1.5 text-left transition sm:min-h-[118px] sm:p-2 ${
-                cell.inCurrentMonth
-                  ? 'bg-[#161b22] hover:bg-[#1b222c]'
-                  : 'bg-[#0c1016] hover:bg-[#121720]'
-              } ${cell.isToday ? 'calendar-today-cell z-10' : ''}`}
-            >
-              {/* Day number header */}
-              <div className="mb-1.5 flex items-center justify-between">
-                <span
-                  className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold transition sm:h-7 sm:w-7 ${
-                    cell.isToday
-                      ? 'bg-[#ef5350] text-white shadow-md shadow-[#ef5350]/35'
-                      : cell.inCurrentMonth
-                        ? 'text-[#e6edf3] group-hover:text-white'
-                        : 'text-[#4d5665]'
-                  }`}
+              return (
+                <button
+                  key={cell.iso}
+                  type="button"
+                  onClick={() => onSelectDay(cell.iso)}
+                  className={`group relative flex min-h-[86px] flex-col p-1.5 text-left transition sm:min-h-[118px] sm:p-2 ${
+                    cell.inCurrentMonth
+                      ? 'bg-[#161b22] hover:bg-[#1b222c]'
+                      : 'bg-[#0c1016] hover:bg-[#121720]'
+                  } ${cell.isToday ? 'calendar-today-cell z-10' : ''}`}
                 >
-                  {cell.dayNumber}
-                </span>
-
-                {dayEvents.some((e) => e.status === 'Disponível') && cell.inCurrentMonth && (
-                  <span
-                    className="hidden h-1.5 w-1.5 rounded-full bg-emerald-400/90 sm:inline-block"
-                    title="Horário disponível"
-                  />
-                )}
-              </div>
-
-              {/* Event chips */}
-              <div className="flex w-full flex-1 flex-col gap-1 overflow-hidden">
-                {visibleChips.map((ev) => {
-                  const chip = getChipStyle(ev);
-                  const prefix = ev.allDay ? 'Dia inteiro' : ev.startTime || '';
-                  return (
-                    <div
-                      key={ev.id}
-                      title={`${prefix ? `${prefix} ` : ''}${ev.title} (${ev.status})`}
-                      className={`flex items-center gap-1 truncate rounded-[5px] border-l-2 px-1.5 py-0.5 text-[10px] leading-tight transition sm:text-[11px] ${chip.bar} ${chip.bg} ${chip.text}`}
+                  {/* Day number header */}
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <span
+                      className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold transition sm:h-7 sm:w-7 ${
+                        cell.isToday
+                          ? 'bg-[#ef5350] text-white shadow-md shadow-[#ef5350]/35'
+                          : cell.inCurrentMonth
+                            ? 'text-[#e6edf3] group-hover:text-white'
+                            : 'text-[#4d5665]'
+                      }`}
                     >
-                      {prefix && (
-                        <span className="shrink-0 font-mono text-[10px] font-semibold opacity-90">
-                          {prefix}
-                        </span>
-                      )}
-                      <span className="truncate font-medium">
-                        {ev.allDay ? ev.title.replace(/^Dia inteiro\s*[•\-:]?\s*/i, '') : ev.title}
-                      </span>
-                    </div>
-                  );
-                })}
+                      {cell.dayNumber}
+                    </span>
 
-                {hiddenCount > 0 && (
-                  <span className="px-1 text-[10px] font-medium text-[#8b96a6]">
-                    +{hiddenCount} mais
-                  </span>
-                )}
-              </div>
-            </button>
-          );
-        })}
+                    {dayEvents.some((e) => e.status === 'Disponível') && cell.inCurrentMonth && (
+                      <span
+                        className="hidden h-1.5 w-1.5 rounded-full bg-emerald-400/90 sm:inline-block"
+                        title="Horário disponível"
+                      />
+                    )}
+                  </div>
+
+                  {/* Event chips */}
+                  <div className="flex w-full flex-1 flex-col gap-1 overflow-hidden">
+                    {visibleChips.map((ev) => {
+                      const chip = getChipStyle(ev);
+                      const prefix = ev.allDay ? 'Dia inteiro' : ev.startTime || '';
+                      return (
+                        <div
+                          key={ev.id}
+                          title={`${prefix ? `${prefix} ` : ''}${ev.title} (${ev.status})`}
+                          className={`flex items-center gap-1 truncate rounded-[5px] border-l-2 px-1.5 py-0.5 text-[10px] leading-tight transition sm:text-[11px] ${chip.bar} ${chip.bg} ${chip.text}`}
+                        >
+                          {prefix && (
+                            <span className="shrink-0 font-mono text-[10px] font-semibold opacity-90">
+                              {prefix}
+                            </span>
+                          )}
+                          <span className="truncate font-medium">
+                            {ev.allDay
+                              ? ev.title.replace(/^Dia inteiro\s*[•\-:]?\s*/i, '')
+                              : ev.title}
+                          </span>
+                        </div>
+                      );
+                    })}
+
+                    {hiddenCount > 0 && (
+                      <span className="px-1 text-[10px] font-medium text-[#8b96a6]">
+                        +{hiddenCount} mais
+                      </span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Bottom Summary & Month/Year Controls Bar */}

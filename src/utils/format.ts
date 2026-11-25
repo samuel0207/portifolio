@@ -96,3 +96,55 @@ export function readFileAsDataURL(file: File): Promise<string> {
     reader.readAsDataURL(file);
   });
 }
+
+/**
+ * Otimiza imagens enviadas mantendo a proporção original exata (sem cortes),
+ * redimensionando apenas se ultrapassar maxDimension (padrão 1600px) para
+ * garantir alta nitidez em telas mobile e desktop com carregamento rápido.
+ */
+export async function optimizeUploadedImage(
+  file: File,
+  maxDimension = 1600,
+  quality = 0.86
+): Promise<string> {
+  const rawDataUrl = await readFileAsDataURL(file);
+
+  // Skip canvas re-encoding for SVGs or GIFs
+  if (file.type === 'image/svg+xml' || file.type === 'image/gif') {
+    return rawDataUrl;
+  }
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const { naturalWidth: w, naturalHeight: h } = img;
+      if (!w || !h) {
+        resolve(rawDataUrl);
+        return;
+      }
+
+      const scale = Math.min(1, maxDimension / Math.max(w, h));
+      const targetW = Math.round(w * scale);
+      const targetH = Math.round(h * scale);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        resolve(rawDataUrl);
+        return;
+      }
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, targetW, targetH);
+
+      const outputMime = file.type === 'image/png' ? 'image/webp' : 'image/jpeg';
+      const optimized = canvas.toDataURL(outputMime, quality);
+      resolve(optimized.length < rawDataUrl.length ? optimized : rawDataUrl);
+    };
+    img.onerror = () => resolve(rawDataUrl);
+    img.src = rawDataUrl;
+  });
+}

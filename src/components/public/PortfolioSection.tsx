@@ -122,7 +122,8 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
                         <img
                           src={item.imageUrl}
                           alt={item.title}
-                          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                          loading="lazy"
+                          className="h-full w-full object-cover object-[50%_20%] transition duration-700 group-hover:scale-105"
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-[#b5a395]">
@@ -183,17 +184,17 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
               }`
             : undefined
         }
-        maxWidthClass="max-w-2xl"
+        maxWidthClass="max-w-3xl"
         surface="editorial"
       >
         {selected && (
           <div className="space-y-5">
             {selected.imageUrl && (
-              <div className="overflow-hidden rounded-xl border border-[#e5d8ca] bg-[#f1e7dc]">
+              <div className="flex items-center justify-center overflow-hidden rounded-xl border border-[#e5d8ca] bg-[#f1e7dc]/70 p-2 sm:p-3">
                 <img
                   src={selected.imageUrl}
                   alt={selected.title}
-                  className="max-h-72 w-full object-cover"
+                  className="max-h-[58dvh] w-auto max-w-full rounded-lg object-contain sm:max-h-[68dvh]"
                 />
               </div>
             )}

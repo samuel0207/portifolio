@@ -204,7 +204,7 @@ export const PublicPortfolioPage: React.FC = () => {
   };
 
   return (
-    <div id="inicio" className="public-editorial-page min-h-screen">
+    <div id="inicio" className="public-editorial-page min-h-screen overflow-x-hidden">
       <PublicNavbar />
 
       {/* ====================================================================
@@ -213,14 +213,14 @@ export const PublicPortfolioPage: React.FC = () => {
       <section className="relative overflow-hidden bg-[#f5ede4]">
         <div className="mx-auto grid max-w-6xl items-center lg:min-h-[600px] lg:grid-cols-12">
           {/* Left Editorial Copy Column */}
-          <div className="relative z-10 space-y-6 px-5 py-12 sm:px-6 lg:col-span-6 lg:py-20 lg:pr-8">
+          <div className="relative z-10 space-y-5 px-4 py-10 sm:space-y-6 sm:px-6 sm:py-14 lg:col-span-6 lg:py-20 lg:pr-8">
             {profile.heroEyebrow && (
               <p className="text-[10px] font-semibold tracking-[0.24em] text-[#b96b4d] uppercase">
                 {profile.heroEyebrow}
               </p>
             )}
 
-            <h1 className="font-editorial text-5xl font-medium leading-[1.03] tracking-tight text-[#2a211d] sm:text-6xl">
+            <h1 className="font-editorial text-4xl font-medium leading-[1.05] tracking-tight text-[#2a211d] sm:text-5xl lg:text-6xl">
               {profile.heroHeadlineLine1 && <span className="block">{profile.heroHeadlineLine1}</span>}
               {profile.heroHeadlineLine2 && <span className="block">{profile.heroHeadlineLine2}</span>}
               {profile.heroHeadlineAccent && (
@@ -296,12 +296,12 @@ export const PublicPortfolioPage: React.FC = () => {
           </div>
 
           {/* Right Full-Bleed Editorial Photo */}
-          <div className="relative h-80 w-full sm:h-[440px] lg:col-span-6 lg:h-full lg:min-h-[600px]">
+          <div className="relative aspect-[4/5] w-full sm:aspect-[16/11] lg:col-span-6 lg:aspect-auto lg:h-full lg:min-h-[600px]">
             {profile.bannerUrl ? (
               <img
                 src={profile.bannerUrl}
                 alt={profile.name}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-[50%_20%]"
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center bg-[#eadcd0] text-[#b96b4d]/40">

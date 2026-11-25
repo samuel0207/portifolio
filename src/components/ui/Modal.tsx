@@ -50,7 +50,7 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         role="dialog"
         aria-modal="true"
-        className={`flex max-h-[90vh] w-full ${maxWidthClass} flex-col overflow-hidden rounded-2xl ${isStudio
+        className={`flex max-h-[92dvh] w-full ${maxWidthClass} flex-col overflow-hidden rounded-2xl ${isStudio
           ? 'studio-window text-[#18191c]'
           : isEditorial
             ? 'border border-[#e5d8ca] bg-[#fbf8f4] text-[#2a211d] shadow-2xl shadow-[#2a211d]/20'
